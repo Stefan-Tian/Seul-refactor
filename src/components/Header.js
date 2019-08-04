@@ -13,6 +13,12 @@ const StyledAppBar = styled(AppBar)`
   }
 `;
 
+const Brand = styled(Typography)`
+  && {
+    font-weight: 700;
+  }
+`;
+
 const Header = () => {
   const [openSidebar, setOpenSidebar] = useState(false);
   const toggleSidebar = open => event => {
@@ -33,9 +39,9 @@ const Header = () => {
             <MenuButton />
           </IconButton>
           <Box component="span" mr="auto">
-            <Typography color="primary" variant="h5">
+            <Brand color="primary" variant="h5">
               Seul
-            </Typography>
+            </Brand>
           </Box>
           <Button>login</Button>
         </Toolbar>
