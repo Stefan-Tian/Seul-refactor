@@ -37,7 +37,7 @@ const differentOptions = [
   ]
 ];
 
-const ItemContainer = styled(Box)`
+export const ItemContainer = styled(Box)`
   margin-bottom: 10px;
   border-radius: 0 8px 8px 0;
   ${boxShadow}
