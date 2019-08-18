@@ -1,0 +1,43 @@
+type Query {
+  projects: [Project!]!
+  tasks: [Task!]!
+  project(id: ID!): Project
+  task(id: ID!): Task
+  users: [User!]!
+  currentUser: User
+}
+
+type Mutation {
+  signup(email: String!, password: String!, name: String!): User
+  login(email: String!, password: String!): User
+  createTask(title: String!): Task
+  updateTask(id: ID!, title: String!): Task
+  deleteTask(id: ID!): Task
+  createProject(title: String!): Project
+  updateProject(id: ID!, title: String!): Project
+  deleteProject(id: ID!): Project
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  projects: [Project!]!
+  tasks: [Task!]!
+}
+
+type Project {
+  id: ID!
+  title: String!
+  tasks: [Task!]
+  createdBy: User
+}
+
+type Task {
+  id: ID!
+  inProject: Project
+  title: String!
+  priority: Int
+  status: Int
+  createdBy: User
+}

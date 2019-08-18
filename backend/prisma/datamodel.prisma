@@ -1,0 +1,28 @@
+type Project {
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  title: String!
+  createdBy: User
+  tasks: [Task]!
+}
+
+type Task {
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  title: String!
+  priority: Int
+  status: Int
+  startTime: DateTime
+  endTime: DateTime
+  createdBy: User
+  inProject: Project
+}
+
+type User {
+  id: ID! @id
+  name: String!
+  email: String! @unique
+  password: String!
+  projects: [Project!]!
+  tasks: [Task!]!
+}
