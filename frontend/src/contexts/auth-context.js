@@ -25,10 +25,8 @@ const AuthProvider = props => {
   }
 
   console.log(data);
-
   return <AuthContext.Provider value={data} {...props} />;
 };
 
 const useAuth = () => React.useContext(AuthContext);
-
 export { AuthProvider, useAuth };
