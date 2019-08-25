@@ -24,8 +24,8 @@ const SignUp = () => {
   let name;
   let email;
   let password;
-  const [signUp, { signInData }] = useMutation(SIGN_UP);
-  const [logIn, { logInData }] = useMutation(LOG_IN);
+  const [signUp] = useMutation(SIGN_UP);
+  const [logIn] = useMutation(LOG_IN);
   const { updateCurrentUser } = useAuth();
 
   return (

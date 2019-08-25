@@ -45,9 +45,13 @@ const resolvers = {
       return user;
     },
     logout: (root, args, context) => {
-      console.log(context.request.session);
-      context.request.session.destroy('userId', e => console.log(e));
-      return 'Successfully logged out';
+      context.response.clearCookie('qid');
+      context.request.session.destroy(e => {
+        if (e) {
+          return e;
+        }
+        return 'Successfully logged out';
+      });
     },
     createTask: (root, args, context) =>
       context.prisma.createTask({
