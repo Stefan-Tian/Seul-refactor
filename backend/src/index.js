@@ -25,9 +25,12 @@ const resolvers = {
   Mutation: {
     signup: async (root, args, context) => {
       const password = await bcrypt.hash(args.password, 10);
-      const user = await context.prisma.createUser({ ...args, password });
+      try {
+        const user = await context.prisma.createUser({ ...args, password });
+      } catch (error) {
+        return error;
+      }
       context.request.session.userId = user.id;
-      console.log(context.request.session);
       return user;
     },
     login: async (root, args, context) => {
