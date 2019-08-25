@@ -5,7 +5,7 @@ import MenuButton from '@material-ui/icons/Menu';
 import styled from 'styled-components';
 import Sidebar from './Sidebar';
 import Box from './styled/Box';
-import { useAuth } from '../contexts/auth-context';
+import { useIsAuthenticated } from '../custom-hooks/auth';
 
 const StyledAppBar = styled(AppBar)`
   && {
@@ -21,7 +21,7 @@ const Brand = styled(Typography)`
 `;
 
 const Header = () => {
-  const user = useAuth;
+  const hasUser = useIsAuthenticated();
   const [openSidebar, setOpenSidebar] = useState(false);
   const toggleSidebar = open => event => {
     if (
@@ -45,7 +45,7 @@ const Header = () => {
               Seul
             </Brand>
           </Box>
-          {user ? <Button>logout</Button> : <Button>sgn in</Button>}
+          {hasUser ? <Button>logout</Button> : <Button>sign in</Button>}
         </Toolbar>
       </StyledAppBar>
       <Sidebar openSidebar={openSidebar} toggleSidebar={toggleSidebar} />

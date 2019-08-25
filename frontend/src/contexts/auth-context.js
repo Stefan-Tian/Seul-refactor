@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 
@@ -14,7 +14,14 @@ const CURRENT_USER = gql`
 `;
 
 const AuthProvider = props => {
+  const [currentUser, setCurrentUser] = useState(null);
   const { loading, error, data } = useQuery(CURRENT_USER);
+
+  useEffect(() => {
+    if (data && data.currentUser) {
+      setCurrentUser(data.currentUser);
+    }
+  }, [data]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -24,8 +31,16 @@ const AuthProvider = props => {
     return <div>Error!</div>;
   }
 
-  console.log(data);
-  return <AuthContext.Provider value={data} {...props} />;
+  console.log(currentUser);
+  return (
+    <AuthContext.Provider
+      value={{
+        currentUser,
+        updateCurrentUser: user => setCurrentUser(user)
+      }}
+      {...props}
+    />
+  );
 };
 
 const useAuth = () => React.useContext(AuthContext);

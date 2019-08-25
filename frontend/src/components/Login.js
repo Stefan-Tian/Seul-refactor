@@ -1,6 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
+import { useAuth } from '../contexts/auth-context';
 
 const SIGN_UP = gql`
   mutation SignUp($name: String!, $email: String!, $password: String!) {
@@ -13,7 +14,8 @@ const SIGN_UP = gql`
 const LOG_IN = gql`
   mutation LogIn($email: String!, $password: String!) {
     login(email: $email, password: $password) {
-      id
+      name
+      email
     }
   }
 `;
@@ -24,11 +26,12 @@ const SignUp = () => {
   let password;
   const [signUp, { signInData }] = useMutation(SIGN_UP);
   const [logIn, { logInData }] = useMutation(LOG_IN);
+  const { updateCurrentUser } = useAuth();
 
   return (
     <div>
       <form
-        onSubmit={e => {
+        onSubmit={async e => {
           e.preventDefault();
           // signUp({
           //   variables: {
@@ -37,15 +40,16 @@ const SignUp = () => {
           //     password: password.value
           //   }
           // });
-          logIn({
+          const user = await logIn({
             variables: {
               email: email.value,
               password: password.value
             }
           });
-          name.value = '';
-          email.value = '';
-          password.value = '';
+          updateCurrentUser(user);
+          // name.value = '';
+          // email.value = '';
+          // password.value = '';
         }}
       >
         <input ref={node => (name = node)} />

@@ -42,9 +42,12 @@ const resolvers = {
       }
 
       context.request.session.userId = user.id;
-      console.log(user.id, context.request.session.userId);
-      console.log(context.request.session);
       return user;
+    },
+    logout: (root, args, context) => {
+      console.log(context.request.session);
+      context.request.session.destroy('userId', e => console.log(e));
+      return 'Successfully logged out';
     },
     createTask: (root, args, context) =>
       context.prisma.createTask({
