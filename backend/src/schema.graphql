@@ -16,6 +16,7 @@ type Mutation {
   createProject(title: String!): Project
   updateProject(id: ID!, title: String!): Project
   deleteProject(id: ID!): Project
+  logout: String
 }
 
 type User {
