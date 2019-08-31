@@ -68,11 +68,13 @@ const initialLoginValues = {
 };
 
 const SeulForm = styled(Form)`
+  position: relative;
+  z-index: 5;
   background-color: #fff;
   display: flex;
   flex-direction: column;
-  max-width: 600px;
-  padding: 30px;
+  min-width: 600px;
+  padding: 30px 50px;
   border-radius: 15px;
   ${boxShadow}
 `;
@@ -96,7 +98,7 @@ const ErrorIcon = styled(Icon)`
   }
 `;
 
-const SignUp = () => {
+const AuthenticationForm = () => {
   const name = useFormField('');
   const email = useFormField('');
   const password = useFormField('');
@@ -216,4 +218,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default AuthenticationForm;

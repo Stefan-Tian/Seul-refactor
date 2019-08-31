@@ -10,9 +10,9 @@ import Box from './styled/Box';
 import { useAuth } from '../contexts/auth-context';
 import { useIsAuthenticated } from '../custom-hooks/auth';
 
-const StyledAppBar = styled(AppBar)`
+const SeulHeader = styled(AppBar)`
   && {
-    background-color: #fbfbfb;
+    background-color: ${({ background }) => background};
     box-shadow: none;
   }
 `;
@@ -50,7 +50,10 @@ const Header = () => {
   };
   return (
     <>
-      <StyledAppBar position="sticky">
+      <SeulHeader
+        position="sticky"
+        background={hasUser ? '#fbfbfb' : 'rgba(0, 0, 0, 0)'}
+      >
         <Toolbar>
           <IconButton edge="start" onClick={toggleSidebar(true)}>
             <MenuButton />
@@ -66,7 +69,7 @@ const Header = () => {
             <Button>sign in</Button>
           )}
         </Toolbar>
-      </StyledAppBar>
+      </SeulHeader>
       <Sidebar openSidebar={openSidebar} toggleSidebar={toggleSidebar} />
     </>
   );

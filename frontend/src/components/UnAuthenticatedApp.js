@@ -1,9 +1,9 @@
 import React from 'react';
-import Login from './Login';
+import Landing from './Landing';
 
 const UnAuthenticatedApp = () => (
   <div>
-    <Login />
+    <Landing />
   </div>
 );
 
