@@ -31,7 +31,6 @@ const AuthProvider = props => {
     return <div>Error!</div>;
   }
 
-  console.log(currentUser);
   return (
     <AuthContext.Provider
       value={{
