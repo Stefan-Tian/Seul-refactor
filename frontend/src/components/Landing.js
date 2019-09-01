@@ -111,13 +111,19 @@ const Landing = () => (
           display="flex"
           alignItems="center"
           justifyContent="space-around"
-          mb="80px"
+          mb="100px"
         >
           <Illustration src={chat} alt="chat" />
           <FeatureDescription>
             Communication is the key to a successful outcome! Using Seul, you
             can chat with yourself and never feel lonely.
           </FeatureDescription>
+        </Box>
+      </Box>
+      <Box width="100%" textAlign="center" fontWeight="bold">
+        &copy;Copyright 2019 by{' '}
+        <Box component="span" color={teal[500]}>
+          Stefan Tian
         </Box>
       </Box>
     </ContentContainer>
