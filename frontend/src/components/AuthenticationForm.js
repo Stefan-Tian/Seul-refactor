@@ -118,8 +118,7 @@ const AuthenticationForm = () => {
         action.hasAccount ? initialLoginValues : initialSignupValues
       }
       validationSchema={action.hasAccount ? LoginSchema : SignupSchema}
-      onSubmit={async e => {
-        e.preventDefault();
+      onSubmit={async () => {
         let user = null;
         if (action.hasAccount) {
           user = await logIn({
