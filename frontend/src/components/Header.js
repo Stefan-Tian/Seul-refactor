@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { AppBar, Toolbar, Button, Typography } from '@material-ui/core';
@@ -10,9 +10,9 @@ import Box from './styled/Box';
 import { useAuth } from '../contexts/auth-context';
 import { useIsAuthenticated } from '../custom-hooks/auth';
 
-const StyledAppBar = styled(AppBar)`
+const SeulHeader = styled(AppBar)`
   && {
-    background-color: #fbfbfb;
+    background-color: ${({ background }) => background};
     box-shadow: none;
   }
 `;
@@ -30,6 +30,7 @@ const LOG_OUT = gql`
 `;
 
 const Header = () => {
+  const [bgColor, setBgColor] = useState('rgba(0, 0, 0, 0)');
   const hasUser = useIsAuthenticated();
   const { updateCurrentUser } = useAuth();
   const [logout] = useMutation(LOG_OUT);
@@ -48,13 +49,39 @@ const Header = () => {
 
     setOpenSidebar(open);
   };
+
+  useEffect(() => {
+    if (!hasUser) {
+      setBgColor('rgba(0, 0, 0, 0)');
+    } else {
+      setBgColor('#fbfbfb');
+    }
+  }, [hasUser, setBgColor]);
+
+  const handleScroll = useCallback(() => {
+    if (window.scrollY > 100) {
+      setBgColor('#fbfbfb');
+    } else {
+      setBgColor('rgba(0, 0, 0, 0)');
+    }
+  }, [setBgColor]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]);
+
   return (
     <>
-      <StyledAppBar position="sticky">
+      <SeulHeader position="sticky" background={bgColor}>
         <Toolbar>
-          <IconButton edge="start" onClick={toggleSidebar(true)}>
-            <MenuButton />
-          </IconButton>
+          {hasUser && (
+            <IconButton edge="start" onClick={toggleSidebar(true)}>
+              <MenuButton />
+            </IconButton>
+          )}
           <Box component="span" mr="auto">
             <Brand color="primary" variant="h5">
               Seul
@@ -66,7 +93,7 @@ const Header = () => {
             <Button>sign in</Button>
           )}
         </Toolbar>
-      </StyledAppBar>
+      </SeulHeader>
       <Sidebar openSidebar={openSidebar} toggleSidebar={toggleSidebar} />
     </>
   );
