@@ -1,25 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Typography, Grid, Box } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { teal, grey } from '@material-ui/core/colors';
 import AuthenticationForm from './AuthenticationForm';
 import checklist from '../images/checklist.svg';
 import calendar from '../images/calendar.svg';
 import chat from '../images/chat.svg';
-
-const ContentContainer = styled.div`
-  max-width: 1200px;
-  padding: 100px 10px 10px 10px;
-  margin: 0 auto;
-`;
-
-const SeulDescription = styled.p`
-  text-align: left;
-  max-width: 60%;
-  line-height: 1.5;
-  font-size: 22px;
-  color: ${grey[800]};
-`;
 
 const EachLine = styled.span`
   display: inline-block;
@@ -55,13 +41,20 @@ const FeatureDescription = styled.p`
 const Landing = () => (
   <>
     <DecorCircle />
-    <ContentContainer>
+    <Box maxWidth="1200px" padding="100px 10px 10px 10px" margin="0 auto">
       <Box display="flex" justifyContent="space-between" mb="200px">
         <Box display="flex" flexDirection="column">
           <Box mb={3} fontWeight="bold" fontSize="42px">
             Single but organized.
           </Box>
-          <SeulDescription>
+          <Box
+            component="p"
+            textAlign="left"
+            maxWidth="60%"
+            lineHeight="1.5"
+            fontSize="22px"
+            color={grey[800]}
+          >
             <EachLine>Seul is a project management app</EachLine>
             <br />
             <EachLine>
@@ -77,7 +70,7 @@ const Landing = () => (
             <EachLine>
               (in case it's not obvious enough, that someone is me.)
             </EachLine>
-          </SeulDescription>
+          </Box>
         </Box>
         <AuthenticationForm />
       </Box>
@@ -126,7 +119,7 @@ const Landing = () => (
           Stefan Tian
         </Box>
       </Box>
-    </ContentContainer>
+    </Box>
   </>
 );
 export default Landing;
