@@ -6,7 +6,6 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useMutation } from '@apollo/react-hooks';
 import { useAuth } from '../contexts/auth-context';
-import { useFormField } from '../custom-hooks/form';
 import FormikTextField from './FormikTextField';
 import boxShadow from './shared/boxShadow';
 
@@ -88,9 +87,6 @@ const ErrorIcon = styled(Icon)`
 `;
 
 const AuthenticationForm = () => {
-  const name = useFormField('');
-  const email = useFormField('');
-  const password = useFormField('');
   const [signUp] = useMutation(SIGN_UP);
   const [logIn] = useMutation(LOG_IN);
   const [initialValues, setInitialValues] = useState({
@@ -111,7 +107,6 @@ const AuthenticationForm = () => {
       validationSchema={action.hasAccount ? LoginSchema : SignupSchema}
       onSubmit={async values => {
         let user = null;
-        console.log(values);
         if (action.hasAccount) {
           user = await logIn({
             variables: {
