@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { Button, Icon } from '@material-ui/core';
@@ -44,12 +44,6 @@ const SignupSchema = Yup.object().shape({
     .ensure('Not a valid password!')
 });
 
-const initialSignupValues = {
-  name: '',
-  email: '',
-  password: ''
-};
-
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
     .email('Invalid Email')
@@ -61,11 +55,6 @@ const LoginSchema = Yup.object().shape({
     .required('Required')
     .ensure('Not a valid password!')
 });
-
-const initialLoginValues = {
-  email: '',
-  password: ''
-};
 
 const SeulForm = styled(Form)`
   position: relative;
@@ -104,6 +93,10 @@ const AuthenticationForm = () => {
   const password = useFormField('');
   const [signUp] = useMutation(SIGN_UP);
   const [logIn] = useMutation(LOG_IN);
+  const [initialValues, setInitialValues] = useState({
+    email: '',
+    password: ''
+  });
   const [action, setAction] = useState({
     hasAccount: true,
     displayText: 'Need a new account?',
@@ -114,31 +107,30 @@ const AuthenticationForm = () => {
 
   return (
     <Formik
-      initialValues={
-        action.hasAccount ? initialLoginValues : initialSignupValues
-      }
+      initialValues={initialValues}
       validationSchema={action.hasAccount ? LoginSchema : SignupSchema}
-      onSubmit={async () => {
+      onSubmit={async values => {
         let user = null;
+        console.log(values);
         if (action.hasAccount) {
           user = await logIn({
             variables: {
-              email: email.value,
-              password: password.value
+              email: values.email,
+              password: values.password
             }
           });
         } else {
           user = await signUp({
             variables: {
-              name: name.value,
-              email: email.value,
-              password: password.value
+              name: values.name,
+              email: values.email,
+              password: values.password
             }
           });
         }
         updateCurrentUser(user);
       }}
-      render={({ errors, status, touched, isSubmitting }) => (
+      render={({ errors }) => (
         <SeulForm>
           <h3>{action.title}</h3>
           {!action.hasAccount && (
@@ -206,6 +198,15 @@ const AuthenticationForm = () => {
                   buttonText: !action.hasAccount ? 'login' : 'signup',
                   title: !action.hasAccount ? 'LOGIN' : 'SIGNUP'
                 });
+                if (action.hasAccount) {
+                  setInitialValues({ email: '', password: '' });
+                } else {
+                  setInitialValues(() => ({
+                    name: '',
+                    ...initialValues
+                  }));
+                }
+                console.log(initialValues);
               }}
             >
               {action.displayText}
