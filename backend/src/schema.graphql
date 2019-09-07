@@ -3,7 +3,6 @@ type Query {
   tasks: [Task!]!
   project(id: ID!): Project
   task(id: ID!): Task
-  users: [User!]!
   currentUser: User
 }
 
