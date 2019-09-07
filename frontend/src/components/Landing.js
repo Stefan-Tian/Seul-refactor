@@ -6,6 +6,7 @@ import AuthenticationForm from './AuthenticationForm';
 import checklist from '../images/checklist.svg';
 import calendar from '../images/calendar.svg';
 import chat from '../images/chat.svg';
+import boxShadow from './shared/boxShadow';
 
 const EachLine = styled.span`
   display: inline-block;
@@ -31,11 +32,14 @@ const Illustration = styled.img`
 `;
 
 const FeatureDescription = styled.p`
-  font-size: 28px;
+  font-size: 20px;
+  padding: 50px;
   font-weight: bold;
   line-height: 1.4;
   text-align: left;
   max-width: 400px;
+  border-radius: 15px;
+  ${boxShadow}
 `;
 
 const Landing = () => (
