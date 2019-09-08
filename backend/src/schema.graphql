@@ -9,8 +9,15 @@ type Query {
 type Mutation {
   signup(email: String!, password: String!, name: String!): User
   login(email: String!, password: String!): User
-  createTask(title: String!): Task
-  updateTask(id: ID!, title: String!): Task
+  createTask(title: String!, projectId: String!): Task
+  updateTask(
+    id: ID!
+    title: String
+    priority: Int
+    status: Int
+    startDate: String
+    endDate: String
+  ): Task
   deleteTask(id: ID!): Task
   createProject(title: String!): Project
   updateProject(id: ID!, title: String!): Project
@@ -40,4 +47,6 @@ type Task {
   priority: Int
   status: Int
   createdBy: User
+  startDate: String
+  endDate: String
 }
