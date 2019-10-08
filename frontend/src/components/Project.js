@@ -19,12 +19,12 @@ const data = [
   }
 ];
 
-const Project = ({ projectName }) => {
+const Project = ({ projectID, projectTitle }) => {
   const [edit, setEdit] = useState(false);
   const [showNew, setShowNew] = useState(false);
-  const [project, setProject] = useState(projectName);
+  const [project, setProject] = useState(projectTitle);
   return (
-    <>
+    <Box marginBottom="30px">
       <Box marginLeft="10px" alignItems="center" display="flex">
         <Box
           mr="auto"
@@ -62,7 +62,7 @@ const Project = ({ projectName }) => {
           <Task key={text} text={text} />
         ))}
       </List>
-    </>
+    </Box>
   );
 };
 
