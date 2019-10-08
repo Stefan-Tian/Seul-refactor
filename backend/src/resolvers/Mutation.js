@@ -41,7 +41,7 @@ const createTask = async (root, args, context) => {
   if (!userId) {
     throw new Error('Not Authorized!');
   }
-  console.log(args);
+
   return await context.prisma.createTask({
     title: args.title,
     createdBy: { connect: { id: userId } },
