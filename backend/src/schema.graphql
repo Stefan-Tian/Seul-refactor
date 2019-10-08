@@ -1,6 +1,6 @@
 type Query {
-  projects: [Project!]!
-  tasks: [Task!]!
+  projects: [Project!]
+  tasks: [Task!]
   project(id: ID!): Project
   task(id: ID!): Task
   currentUser: User
