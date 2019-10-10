@@ -1,17 +1,8 @@
 import React from 'react';
-import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import Project from './Project';
 import { Box } from '@material-ui/core';
-
-const PROJECTS = gql`
-  {
-    projects {
-      id
-      title
-    }
-  }
-`;
+import { PROJECTS } from '../query';
 
 const Projects = () => {
   const { loading, error, data } = useQuery(PROJECTS);
@@ -25,8 +16,8 @@ const Projects = () => {
 
   return (
     <Box>
-      {data.projects.map(({ id, title }) => (
-        <Project id={id} projectID={id} projectTitle={title} />
+      {data.projects.map(({ id, title, tasks }) => (
+        <Project key={id} projectId={id} projectTitle={title} tasks={tasks} />
       ))}
     </Box>
   );

@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
-import { List, Typography, Box, TextField, Icon } from '@material-ui/core';
+import {
+  List,
+  Typography,
+  Box,
+  TextField,
+  Icon,
+  CircularProgress
+} from '@material-ui/core';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 import styled from 'styled-components';
+import { teal } from '@material-ui/core/colors';
 import Task from './Task';
-import NewTask from './NewTask';
+import { PROJECTS } from '../query';
 
 const FatFont = styled(Typography)`
   && {
@@ -10,19 +20,45 @@ const FatFont = styled(Typography)`
   }
 `;
 
-const data = [
-  {
-    text: 'todo1'
-  },
-  {
-    text: 'todo2'
+const Pointer = styled(Icon)`
+  cursor: pointer;
+  &&:hover {
+    color: ${teal[300]};
   }
-];
+`;
 
-const Project = ({ projectID, projectTitle }) => {
+const CREATE_TASK = gql`
+  mutation CreateTask($projectId: String!, $title: String!) {
+    createTask(projectId: $projectId, title: $title) {
+      id
+      title
+    }
+  }
+`;
+
+const Project = ({ projectId, projectTitle, tasks }) => {
   const [edit, setEdit] = useState(false);
-  const [showNew, setShowNew] = useState(false);
   const [project, setProject] = useState(projectTitle);
+  const [createTask, { loading }] = useMutation(CREATE_TASK, {
+    update(
+      cache,
+      {
+        data: { createTask }
+      }
+    ) {
+      const data = cache.readQuery({ query: PROJECTS });
+      data.projects.forEach(project => {
+        if (project.id === projectId) {
+          project.tasks.push(createTask);
+        }
+      });
+      cache.writeQuery({
+        query: PROJECTS,
+        data
+      });
+    }
+  });
+
   return (
     <Box marginBottom="30px">
       <Box marginLeft="10px" alignItems="center" display="flex">
@@ -46,21 +82,26 @@ const Project = ({ projectID, projectTitle }) => {
             <FatFont variant="h5">{project}</FatFont>
           )}
         </Box>
-        {showNew ? (
-          <Icon color="primary" onClick={() => setShowNew(false)}>
-            clear
-          </Icon>
+        {loading ? (
+          <CircularProgress color="primary" size="24px" />
         ) : (
-          <Icon color="primary" onClick={() => setShowNew(true)}>
+          <Pointer
+            color="primary"
+            onClick={() =>
+              createTask({
+                variables: {
+                  projectId,
+                  title: 'New Task'
+                }
+              })
+            }
+          >
             add_circle
-          </Icon>
+          </Pointer>
         )}
       </Box>
       <List>
-        {showNew && <NewTask />}
-        {data.map(({ text }) => (
-          <Task key={text} text={text} />
-        ))}
+        {tasks && tasks.map(task => <Task key={task.id} {...task} />)}
       </List>
     </Box>
   );

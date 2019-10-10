@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Select, MenuItem } from '@material-ui/core';
+import { grey } from '@material-ui/core/colors';
 import styled from 'styled-components';
 
 const Div = styled.div`
@@ -7,7 +8,7 @@ const Div = styled.div`
   align-items: center;
   justify-content: center;
   background-color: ${({ bgColor }) => bgColor};
-  padding: 12px;
+  height: 42px;
   color: #fff;
   min-width: 125px;
   border-radius: 8px;
@@ -18,9 +19,22 @@ const Div = styled.div`
   }
 `;
 
-const DropDown = ({ options }) => {
+const CustomSelect = styled(Select)`
+  && {
+    min-width: 40%;
+  }
+  &&.MuiInput-underline::before {
+    width: 85%;
+  }
+  && > .MuiInputBase-input {
+    padding: 3px 25px 3px 3px;
+  }
+`;
+
+const DropDown = ({ options, defaultVal }) => {
   const [showSelect, setShowSelect] = useState(false);
-  const [value, setValue] = useState(0);
+  console.log(defaultVal);
+  const [value, setValue] = useState(!defaultVal ? -1 : defaultVal);
   const [open, setOpen] = useState(false);
 
   const handleChange = useCallback(
@@ -36,14 +50,17 @@ const DropDown = ({ options }) => {
     setShowSelect(false);
   }, [setOpen, setShowSelect]);
 
+  const bgColor = value !== -1 ? options[value].bgColor : grey[500];
+  const text = value !== -1 ? options[value].text : '--';
+
   return (
     <Div
       onMouseEnter={() => setShowSelect(true)}
       onMouseLeave={() => setShowSelect(false)}
-      bgColor={options[value].bgColor}
+      bgColor={bgColor}
     >
       {showSelect ? (
-        <Select
+        <CustomSelect
           open={open}
           onClose={handleClose}
           onOpen={() => setOpen(true)}
@@ -55,9 +72,9 @@ const DropDown = ({ options }) => {
               {option.text}
             </MenuItem>
           ))}
-        </Select>
+        </CustomSelect>
       ) : (
-        options[value].text
+        text
       )}
     </Div>
   );

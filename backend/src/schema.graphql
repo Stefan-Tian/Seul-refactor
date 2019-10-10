@@ -35,7 +35,7 @@ type User {
 
 type Project {
   id: ID!
-  title: String!
+  title: String
   tasks: [Task!]
   createdBy: User
 }
@@ -43,7 +43,7 @@ type Project {
 type Task {
   id: ID!
   inProject: Project
-  title: String!
+  title: String
   priority: Int
   status: Int
   createdBy: User
