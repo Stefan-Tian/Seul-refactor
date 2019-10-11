@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   List,
   Typography,
@@ -7,12 +7,14 @@ import {
   Icon,
   CircularProgress
 } from '@material-ui/core';
+import moment from 'moment';
 import { useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { teal } from '@material-ui/core/colors';
 import Task from './Task';
-import { PROJECTS } from '../query';
+import { UPDATE_PROJECT } from '../mutation';
+import { EditIcon, EditTitle } from './shared/edit';
+import { useCreateTask, useDeleteProject } from '../custom-hooks/project';
 
 const FatFont = styled(Typography)`
   && {
@@ -27,61 +29,61 @@ const Pointer = styled(Icon)`
   }
 `;
 
-const CREATE_TASK = gql`
-  mutation CreateTask($projectId: String!, $title: String!) {
-    createTask(projectId: $projectId, title: $title) {
-      id
-      title
-    }
-  }
-`;
-
 const Project = ({ projectId, projectTitle, tasks }) => {
   const [edit, setEdit] = useState(false);
-  const [project, setProject] = useState(projectTitle);
-  const [createTask, { loading }] = useMutation(CREATE_TASK, {
-    update(
-      cache,
-      {
-        data: { createTask }
+  const [title, setTitle] = useState(projectTitle);
+  const [deleteProject] = useDeleteProject(projectId);
+  const [updateProject] = useMutation(UPDATE_PROJECT);
+  const handleUpdateProject = useCallback(() => {
+    updateProject({
+      variables: {
+        id: projectId,
+        title
       }
-    ) {
-      const data = cache.readQuery({ query: PROJECTS });
-      data.projects.forEach(project => {
-        if (project.id === projectId) {
-          project.tasks.push(createTask);
-        }
-      });
-      cache.writeQuery({
-        query: PROJECTS,
-        data
-      });
-    }
-  });
+    });
+    setEdit(false);
+  }, [updateProject, setEdit, title, projectId]);
+  const [createTask, loading] = useCreateTask(projectId);
 
   return (
     <Box marginBottom="30px">
       <Box marginLeft="10px" alignItems="center" display="flex">
-        <Box
-          mr="auto"
-          maxWidth="50%"
-          onMouseEnter={() => setEdit(true)}
-          onMouseLeave={() => setEdit(false)}
-        >
-          {edit ? (
-            <form>
-              <TextField
-                placeholder={project}
-                value={project}
-                onChange={e => {
-                  setProject(e.target.value);
-                }}
-              />
-            </form>
+        <EditTitle mr="auto" maxWidth="50%" display="flex" alignItems="center">
+          <Box mr="12px">
+            {edit ? (
+              <form>
+                <TextField
+                  placeholder={title}
+                  value={title}
+                  onChange={e => {
+                    setTitle(e.target.value);
+                  }}
+                />
+              </form>
+            ) : (
+              <FatFont variant="h5">{title}</FatFont>
+            )}
+          </Box>
+          {!edit ? (
+            <>
+              <EditIcon mr="8px" onClick={() => setEdit(true)}>
+                edit
+              </EditIcon>
+              <EditIcon
+                onClick={() => deleteProject({ variables: { id: projectId } })}
+              >
+                delete
+              </EditIcon>
+            </>
           ) : (
-            <FatFont variant="h5">{project}</FatFont>
+            <>
+              <EditIcon mr="8px" onClick={handleUpdateProject}>
+                check
+              </EditIcon>
+              <EditIcon onClick={() => setEdit(false)}>close</EditIcon>
+            </>
           )}
-        </Box>
+        </EditTitle>
         {loading ? (
           <CircularProgress color="primary" size="24px" />
         ) : (
@@ -91,7 +93,11 @@ const Project = ({ projectId, projectTitle, tasks }) => {
               createTask({
                 variables: {
                   projectId,
-                  title: 'New Task'
+                  title: 'New Task',
+                  status: 0,
+                  priority: 0,
+                  startDate: moment(),
+                  endDate: moment().add(1, 'days')
                 }
               })
             }
@@ -101,7 +107,10 @@ const Project = ({ projectId, projectTitle, tasks }) => {
         )}
       </Box>
       <List>
-        {tasks && tasks.map(task => <Task key={task.id} {...task} />)}
+        {tasks &&
+          tasks.map(task => (
+            <Task key={task.id} {...task} projectId={projectId} />
+          ))}
       </List>
     </Box>
   );
