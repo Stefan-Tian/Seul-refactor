@@ -325,8 +325,8 @@ type Task {
   title: String!
   priority: Int
   status: Int
-  startTime: DateTime
-  endTime: DateTime
+  startDate: DateTime
+  endDate: DateTime
   createdBy: User
   inProject: Project
 }
@@ -342,8 +342,8 @@ input TaskCreateInput {
   title: String!
   priority: Int
   status: Int
-  startTime: DateTime
-  endTime: DateTime
+  startDate: DateTime
+  endDate: DateTime
   createdBy: UserCreateOneWithoutTasksInput
   inProject: ProjectCreateOneWithoutTasksInput
 }
@@ -363,8 +363,8 @@ input TaskCreateWithoutCreatedByInput {
   title: String!
   priority: Int
   status: Int
-  startTime: DateTime
-  endTime: DateTime
+  startDate: DateTime
+  endDate: DateTime
   inProject: ProjectCreateOneWithoutTasksInput
 }
 
@@ -373,8 +373,8 @@ input TaskCreateWithoutInProjectInput {
   title: String!
   priority: Int
   status: Int
-  startTime: DateTime
-  endTime: DateTime
+  startDate: DateTime
+  endDate: DateTime
   createdBy: UserCreateOneWithoutTasksInput
 }
 
@@ -394,10 +394,10 @@ enum TaskOrderByInput {
   priority_DESC
   status_ASC
   status_DESC
-  startTime_ASC
-  startTime_DESC
-  endTime_ASC
-  endTime_DESC
+  startDate_ASC
+  startDate_DESC
+  endDate_ASC
+  endDate_DESC
 }
 
 type TaskPreviousValues {
@@ -406,8 +406,8 @@ type TaskPreviousValues {
   title: String!
   priority: Int
   status: Int
-  startTime: DateTime
-  endTime: DateTime
+  startDate: DateTime
+  endDate: DateTime
 }
 
 input TaskScalarWhereInput {
@@ -463,22 +463,22 @@ input TaskScalarWhereInput {
   status_lte: Int
   status_gt: Int
   status_gte: Int
-  startTime: DateTime
-  startTime_not: DateTime
-  startTime_in: [DateTime!]
-  startTime_not_in: [DateTime!]
-  startTime_lt: DateTime
-  startTime_lte: DateTime
-  startTime_gt: DateTime
-  startTime_gte: DateTime
-  endTime: DateTime
-  endTime_not: DateTime
-  endTime_in: [DateTime!]
-  endTime_not_in: [DateTime!]
-  endTime_lt: DateTime
-  endTime_lte: DateTime
-  endTime_gt: DateTime
-  endTime_gte: DateTime
+  startDate: DateTime
+  startDate_not: DateTime
+  startDate_in: [DateTime!]
+  startDate_not_in: [DateTime!]
+  startDate_lt: DateTime
+  startDate_lte: DateTime
+  startDate_gt: DateTime
+  startDate_gte: DateTime
+  endDate: DateTime
+  endDate_not: DateTime
+  endDate_in: [DateTime!]
+  endDate_not_in: [DateTime!]
+  endDate_lt: DateTime
+  endDate_lte: DateTime
+  endDate_gt: DateTime
+  endDate_gte: DateTime
   AND: [TaskScalarWhereInput!]
   OR: [TaskScalarWhereInput!]
   NOT: [TaskScalarWhereInput!]
@@ -506,8 +506,8 @@ input TaskUpdateInput {
   title: String
   priority: Int
   status: Int
-  startTime: DateTime
-  endTime: DateTime
+  startDate: DateTime
+  endDate: DateTime
   createdBy: UserUpdateOneWithoutTasksInput
   inProject: ProjectUpdateOneWithoutTasksInput
 }
@@ -516,16 +516,16 @@ input TaskUpdateManyDataInput {
   title: String
   priority: Int
   status: Int
-  startTime: DateTime
-  endTime: DateTime
+  startDate: DateTime
+  endDate: DateTime
 }
 
 input TaskUpdateManyMutationInput {
   title: String
   priority: Int
   status: Int
-  startTime: DateTime
-  endTime: DateTime
+  startDate: DateTime
+  endDate: DateTime
 }
 
 input TaskUpdateManyWithoutCreatedByInput {
@@ -561,8 +561,8 @@ input TaskUpdateWithoutCreatedByDataInput {
   title: String
   priority: Int
   status: Int
-  startTime: DateTime
-  endTime: DateTime
+  startDate: DateTime
+  endDate: DateTime
   inProject: ProjectUpdateOneWithoutTasksInput
 }
 
@@ -570,8 +570,8 @@ input TaskUpdateWithoutInProjectDataInput {
   title: String
   priority: Int
   status: Int
-  startTime: DateTime
-  endTime: DateTime
+  startDate: DateTime
+  endDate: DateTime
   createdBy: UserUpdateOneWithoutTasksInput
 }
 
@@ -650,22 +650,22 @@ input TaskWhereInput {
   status_lte: Int
   status_gt: Int
   status_gte: Int
-  startTime: DateTime
-  startTime_not: DateTime
-  startTime_in: [DateTime!]
-  startTime_not_in: [DateTime!]
-  startTime_lt: DateTime
-  startTime_lte: DateTime
-  startTime_gt: DateTime
-  startTime_gte: DateTime
-  endTime: DateTime
-  endTime_not: DateTime
-  endTime_in: [DateTime!]
-  endTime_not_in: [DateTime!]
-  endTime_lt: DateTime
-  endTime_lte: DateTime
-  endTime_gt: DateTime
-  endTime_gte: DateTime
+  startDate: DateTime
+  startDate_not: DateTime
+  startDate_in: [DateTime!]
+  startDate_not_in: [DateTime!]
+  startDate_lt: DateTime
+  startDate_lte: DateTime
+  startDate_gt: DateTime
+  startDate_gte: DateTime
+  endDate: DateTime
+  endDate_not: DateTime
+  endDate_in: [DateTime!]
+  endDate_not_in: [DateTime!]
+  endDate_lt: DateTime
+  endDate_lte: DateTime
+  endDate_gt: DateTime
+  endDate_gte: DateTime
   createdBy: UserWhereInput
   inProject: ProjectWhereInput
   AND: [TaskWhereInput!]

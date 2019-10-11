@@ -12,8 +12,8 @@ type Task {
   title: String!
   priority: Int
   status: Int
-  startTime: DateTime
-  endTime: DateTime
+  startDate: DateTime
+  endDate: DateTime
   createdBy: User
   inProject: Project
 }
