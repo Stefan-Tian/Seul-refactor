@@ -6,35 +6,34 @@ import boxShadow from './shared/boxShadow';
 import DropDown from './DropDown';
 import DatePicker from './DatePicker';
 
-const differentOptions = [
-  [
-    {
-      text: 'working on it',
-      bgColor: blue[500]
-    },
-    {
-      text: 'stuck',
-      bgColor: red[600]
-    },
-    {
-      text: 'done',
-      bgColor: amber[700]
-    }
-  ],
-  [
-    {
-      text: 'low',
-      bgColor: amber[700]
-    },
-    {
-      text: 'medium',
-      bgColor: blue[500]
-    },
-    {
-      text: 'high',
-      bgColor: red[600]
-    }
-  ]
+const statusOptions = [
+  {
+    text: 'working on it',
+    bgColor: blue[500]
+  },
+  {
+    text: 'stuck',
+    bgColor: red[600]
+  },
+  {
+    text: 'done',
+    bgColor: amber[700]
+  }
+];
+
+const priorityOptions = [
+  {
+    text: 'low',
+    bgColor: amber[700]
+  },
+  {
+    text: 'medium',
+    bgColor: blue[500]
+  },
+  {
+    text: 'high',
+    bgColor: red[600]
+  }
 ];
 
 export const ItemContainer = styled(Box)`
@@ -53,9 +52,9 @@ export const ItemContainer = styled(Box)`
   }
 `;
 
-const Task = ({ text }) => {
+const Task = ({ title, status, priority, startDate, endDate }) => {
   const [edit, setEdit] = useState(false);
-  const [value, setValue] = useState(text);
+  const [value, setValue] = useState(title);
 
   return (
     <ItemContainer display="flex">
@@ -70,7 +69,7 @@ const Task = ({ text }) => {
           {edit ? (
             <form>
               <TextField
-                placeholder={text}
+                placeholder={title}
                 value={value}
                 onChange={e => {
                   setValue(e.target.value);
@@ -81,11 +80,12 @@ const Task = ({ text }) => {
             <Typography noWrap={true}>{value}</Typography>
           )}
         </Box>
-        {differentOptions.map(options => (
-          <Box paddingY="10px" key={options[0].text}>
-            <DropDown options={options} />
-          </Box>
-        ))}
+        <Box paddingY="10px">
+          <DropDown options={statusOptions} defaultVal={status} />
+        </Box>
+        <Box paddingY="10px">
+          <DropDown options={priorityOptions} defaultVal={priority} />
+        </Box>
         <DatePicker />
       </Box>
     </ItemContainer>

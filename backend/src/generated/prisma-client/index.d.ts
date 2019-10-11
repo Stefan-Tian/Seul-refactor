@@ -198,10 +198,10 @@ export type TaskOrderByInput =
   | "priority_DESC"
   | "status_ASC"
   | "status_DESC"
-  | "startTime_ASC"
-  | "startTime_DESC"
-  | "endTime_ASC"
-  | "endTime_DESC";
+  | "startDate_ASC"
+  | "startDate_DESC"
+  | "endDate_ASC"
+  | "endDate_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -354,22 +354,22 @@ export interface TaskWhereInput {
   status_lte?: Maybe<Int>;
   status_gt?: Maybe<Int>;
   status_gte?: Maybe<Int>;
-  startTime?: Maybe<DateTimeInput>;
-  startTime_not?: Maybe<DateTimeInput>;
-  startTime_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  startTime_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  startTime_lt?: Maybe<DateTimeInput>;
-  startTime_lte?: Maybe<DateTimeInput>;
-  startTime_gt?: Maybe<DateTimeInput>;
-  startTime_gte?: Maybe<DateTimeInput>;
-  endTime?: Maybe<DateTimeInput>;
-  endTime_not?: Maybe<DateTimeInput>;
-  endTime_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  endTime_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  endTime_lt?: Maybe<DateTimeInput>;
-  endTime_lte?: Maybe<DateTimeInput>;
-  endTime_gt?: Maybe<DateTimeInput>;
-  endTime_gte?: Maybe<DateTimeInput>;
+  startDate?: Maybe<DateTimeInput>;
+  startDate_not?: Maybe<DateTimeInput>;
+  startDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  startDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  startDate_lt?: Maybe<DateTimeInput>;
+  startDate_lte?: Maybe<DateTimeInput>;
+  startDate_gt?: Maybe<DateTimeInput>;
+  startDate_gte?: Maybe<DateTimeInput>;
+  endDate?: Maybe<DateTimeInput>;
+  endDate_not?: Maybe<DateTimeInput>;
+  endDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  endDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  endDate_lt?: Maybe<DateTimeInput>;
+  endDate_lte?: Maybe<DateTimeInput>;
+  endDate_gt?: Maybe<DateTimeInput>;
+  endDate_gte?: Maybe<DateTimeInput>;
   createdBy?: Maybe<UserWhereInput>;
   inProject?: Maybe<ProjectWhereInput>;
   AND?: Maybe<TaskWhereInput[] | TaskWhereInput>;
@@ -458,8 +458,8 @@ export interface TaskUpdateManyMutationInput {
   title?: Maybe<String>;
   priority?: Maybe<Int>;
   status?: Maybe<Int>;
-  startTime?: Maybe<DateTimeInput>;
-  endTime?: Maybe<DateTimeInput>;
+  startDate?: Maybe<DateTimeInput>;
+  endDate?: Maybe<DateTimeInput>;
 }
 
 export interface UserUpdateWithoutProjectsDataInput {
@@ -474,8 +474,8 @@ export interface TaskCreateInput {
   title: String;
   priority?: Maybe<Int>;
   status?: Maybe<Int>;
-  startTime?: Maybe<DateTimeInput>;
-  endTime?: Maybe<DateTimeInput>;
+  startDate?: Maybe<DateTimeInput>;
+  endDate?: Maybe<DateTimeInput>;
   createdBy?: Maybe<UserCreateOneWithoutTasksInput>;
   inProject?: Maybe<ProjectCreateOneWithoutTasksInput>;
 }
@@ -503,8 +503,8 @@ export interface TaskUpdateWithoutCreatedByDataInput {
   title?: Maybe<String>;
   priority?: Maybe<Int>;
   status?: Maybe<Int>;
-  startTime?: Maybe<DateTimeInput>;
-  endTime?: Maybe<DateTimeInput>;
+  startDate?: Maybe<DateTimeInput>;
+  endDate?: Maybe<DateTimeInput>;
   inProject?: Maybe<ProjectUpdateOneWithoutTasksInput>;
 }
 
@@ -718,22 +718,22 @@ export interface TaskScalarWhereInput {
   status_lte?: Maybe<Int>;
   status_gt?: Maybe<Int>;
   status_gte?: Maybe<Int>;
-  startTime?: Maybe<DateTimeInput>;
-  startTime_not?: Maybe<DateTimeInput>;
-  startTime_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  startTime_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  startTime_lt?: Maybe<DateTimeInput>;
-  startTime_lte?: Maybe<DateTimeInput>;
-  startTime_gt?: Maybe<DateTimeInput>;
-  startTime_gte?: Maybe<DateTimeInput>;
-  endTime?: Maybe<DateTimeInput>;
-  endTime_not?: Maybe<DateTimeInput>;
-  endTime_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  endTime_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  endTime_lt?: Maybe<DateTimeInput>;
-  endTime_lte?: Maybe<DateTimeInput>;
-  endTime_gt?: Maybe<DateTimeInput>;
-  endTime_gte?: Maybe<DateTimeInput>;
+  startDate?: Maybe<DateTimeInput>;
+  startDate_not?: Maybe<DateTimeInput>;
+  startDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  startDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  startDate_lt?: Maybe<DateTimeInput>;
+  startDate_lte?: Maybe<DateTimeInput>;
+  startDate_gt?: Maybe<DateTimeInput>;
+  startDate_gte?: Maybe<DateTimeInput>;
+  endDate?: Maybe<DateTimeInput>;
+  endDate_not?: Maybe<DateTimeInput>;
+  endDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  endDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  endDate_lt?: Maybe<DateTimeInput>;
+  endDate_lte?: Maybe<DateTimeInput>;
+  endDate_gt?: Maybe<DateTimeInput>;
+  endDate_gte?: Maybe<DateTimeInput>;
   AND?: Maybe<TaskScalarWhereInput[] | TaskScalarWhereInput>;
   OR?: Maybe<TaskScalarWhereInput[] | TaskScalarWhereInput>;
   NOT?: Maybe<TaskScalarWhereInput[] | TaskScalarWhereInput>;
@@ -756,8 +756,8 @@ export interface TaskUpdateInput {
   title?: Maybe<String>;
   priority?: Maybe<Int>;
   status?: Maybe<Int>;
-  startTime?: Maybe<DateTimeInput>;
-  endTime?: Maybe<DateTimeInput>;
+  startDate?: Maybe<DateTimeInput>;
+  endDate?: Maybe<DateTimeInput>;
   createdBy?: Maybe<UserUpdateOneWithoutTasksInput>;
   inProject?: Maybe<ProjectUpdateOneWithoutTasksInput>;
 }
@@ -766,8 +766,8 @@ export interface TaskUpdateManyDataInput {
   title?: Maybe<String>;
   priority?: Maybe<Int>;
   status?: Maybe<Int>;
-  startTime?: Maybe<DateTimeInput>;
-  endTime?: Maybe<DateTimeInput>;
+  startDate?: Maybe<DateTimeInput>;
+  endDate?: Maybe<DateTimeInput>;
 }
 
 export interface TaskUpsertWithWhereUniqueWithoutInProjectInput {
@@ -815,8 +815,8 @@ export interface TaskCreateWithoutCreatedByInput {
   title: String;
   priority?: Maybe<Int>;
   status?: Maybe<Int>;
-  startTime?: Maybe<DateTimeInput>;
-  endTime?: Maybe<DateTimeInput>;
+  startDate?: Maybe<DateTimeInput>;
+  endDate?: Maybe<DateTimeInput>;
   inProject?: Maybe<ProjectCreateOneWithoutTasksInput>;
 }
 
@@ -830,8 +830,8 @@ export interface TaskCreateWithoutInProjectInput {
   title: String;
   priority?: Maybe<Int>;
   status?: Maybe<Int>;
-  startTime?: Maybe<DateTimeInput>;
-  endTime?: Maybe<DateTimeInput>;
+  startDate?: Maybe<DateTimeInput>;
+  endDate?: Maybe<DateTimeInput>;
   createdBy?: Maybe<UserCreateOneWithoutTasksInput>;
 }
 
@@ -839,8 +839,8 @@ export interface TaskUpdateWithoutInProjectDataInput {
   title?: Maybe<String>;
   priority?: Maybe<Int>;
   status?: Maybe<Int>;
-  startTime?: Maybe<DateTimeInput>;
-  endTime?: Maybe<DateTimeInput>;
+  startDate?: Maybe<DateTimeInput>;
+  endDate?: Maybe<DateTimeInput>;
   createdBy?: Maybe<UserUpdateOneWithoutTasksInput>;
 }
 
@@ -1105,8 +1105,8 @@ export interface TaskPreviousValues {
   title: String;
   priority?: Int;
   status?: Int;
-  startTime?: DateTimeOutput;
-  endTime?: DateTimeOutput;
+  startDate?: DateTimeOutput;
+  endDate?: DateTimeOutput;
 }
 
 export interface TaskPreviousValuesPromise
@@ -1117,8 +1117,8 @@ export interface TaskPreviousValuesPromise
   title: () => Promise<String>;
   priority: () => Promise<Int>;
   status: () => Promise<Int>;
-  startTime: () => Promise<DateTimeOutput>;
-  endTime: () => Promise<DateTimeOutput>;
+  startDate: () => Promise<DateTimeOutput>;
+  endDate: () => Promise<DateTimeOutput>;
 }
 
 export interface TaskPreviousValuesSubscription
@@ -1129,8 +1129,8 @@ export interface TaskPreviousValuesSubscription
   title: () => Promise<AsyncIterator<String>>;
   priority: () => Promise<AsyncIterator<Int>>;
   status: () => Promise<AsyncIterator<Int>>;
-  startTime: () => Promise<AsyncIterator<DateTimeOutput>>;
-  endTime: () => Promise<AsyncIterator<DateTimeOutput>>;
+  startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  endDate: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface ProjectEdge {
@@ -1395,8 +1395,8 @@ export interface Task {
   title: String;
   priority?: Int;
   status?: Int;
-  startTime?: DateTimeOutput;
-  endTime?: DateTimeOutput;
+  startDate?: DateTimeOutput;
+  endDate?: DateTimeOutput;
 }
 
 export interface TaskPromise extends Promise<Task>, Fragmentable {
@@ -1405,8 +1405,8 @@ export interface TaskPromise extends Promise<Task>, Fragmentable {
   title: () => Promise<String>;
   priority: () => Promise<Int>;
   status: () => Promise<Int>;
-  startTime: () => Promise<DateTimeOutput>;
-  endTime: () => Promise<DateTimeOutput>;
+  startDate: () => Promise<DateTimeOutput>;
+  endDate: () => Promise<DateTimeOutput>;
   createdBy: <T = UserPromise>() => T;
   inProject: <T = ProjectPromise>() => T;
 }
@@ -1419,8 +1419,8 @@ export interface TaskSubscription
   title: () => Promise<AsyncIterator<String>>;
   priority: () => Promise<AsyncIterator<Int>>;
   status: () => Promise<AsyncIterator<Int>>;
-  startTime: () => Promise<AsyncIterator<DateTimeOutput>>;
-  endTime: () => Promise<AsyncIterator<DateTimeOutput>>;
+  startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  endDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdBy: <T = UserSubscription>() => T;
   inProject: <T = ProjectSubscription>() => T;
 }
@@ -1433,8 +1433,8 @@ export interface TaskNullablePromise
   title: () => Promise<String>;
   priority: () => Promise<Int>;
   status: () => Promise<Int>;
-  startTime: () => Promise<DateTimeOutput>;
-  endTime: () => Promise<DateTimeOutput>;
+  startDate: () => Promise<DateTimeOutput>;
+  endDate: () => Promise<DateTimeOutput>;
   createdBy: <T = UserPromise>() => T;
   inProject: <T = ProjectPromise>() => T;
 }

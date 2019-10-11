@@ -44,6 +44,10 @@ const createTask = async (root, args, context) => {
 
   return await context.prisma.createTask({
     title: args.title,
+    status: args.status,
+    priority: args.priority,
+    startDate: args.startDate,
+    endDate: args.endDate,
     createdBy: { connect: { id: userId } },
     inProject: { connect: { id: args.projectId } }
   });
@@ -84,7 +88,7 @@ const createProject = async (root, args, context) => {
   }
 
   return await context.prisma.createProject({
-    title: args.title,
+    ...args,
     createdBy: { connect: { id: userId } }
   });
 };
