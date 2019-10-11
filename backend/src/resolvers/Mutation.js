@@ -118,10 +118,8 @@ const deleteProject = async (parents, args, context) => {
   }
 
   await context.prisma.deleteManyTasks({
-    where: {
-      inProject: {
-        id: args.id
-      }
+    inProject: {
+      id: args.id
     }
   });
   return await context.prisma.deleteProject({

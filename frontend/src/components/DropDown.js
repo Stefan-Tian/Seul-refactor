@@ -31,18 +31,20 @@ const CustomSelect = styled(Select)`
   }
 `;
 
-const DropDown = ({ options, defaultVal }) => {
+const DropDown = ({ type, options, defaultVal, handleUpdate }) => {
   const [showSelect, setShowSelect] = useState(false);
-  console.log(defaultVal);
-  const [value, setValue] = useState(!defaultVal ? -1 : defaultVal);
+  const [value, setValue] = useState(
+    !defaultVal && defaultVal !== 0 ? -1 : defaultVal
+  );
   const [open, setOpen] = useState(false);
 
   const handleChange = useCallback(
     e => {
       setValue(e.target.value);
+      handleUpdate(type, e.target.value);
       setShowSelect(false);
     },
-    [setValue, setShowSelect]
+    [setValue, type, handleUpdate, setShowSelect]
   );
 
   const handleClose = useCallback(() => {

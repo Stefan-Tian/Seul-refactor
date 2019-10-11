@@ -26,16 +26,16 @@ const DatePickerPositioner = styled.div`
 
 const DatePicker = () => {
   const [edit, setEdit] = useState(false);
-  const [startDate, setStartDate] = useState(moment());
-  const [endDate, setEndDate] = useState(moment().add(1, 'days'));
-  const [focused, setFocused] = useState('startDate');
+  const [startDate, setstartDate] = useState(moment());
+  const [endDate, setendDate] = useState(moment().add(1, 'days'));
+  const [focused, setFocused] = useState('endDate');
 
   const handleDateChange = useCallback(
     ({ startDate, endDate }) => {
-      setStartDate(startDate);
-      setEndDate(endDate);
+      setstartDate(startDate);
+      setendDate(endDate);
     },
-    [setStartDate, setEndDate]
+    [setstartDate, setendDate]
   );
 
   return (

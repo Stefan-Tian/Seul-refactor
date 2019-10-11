@@ -16,3 +16,12 @@ export const PROJECTS = gql`
     }
   }
 `;
+
+export const CURRENT_USER = gql`
+  {
+    currentUser {
+      name
+      email
+    }
+  }
+`;

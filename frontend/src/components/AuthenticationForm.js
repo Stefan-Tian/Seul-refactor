@@ -1,5 +1,4 @@
-import React, { useState, useCallback } from 'react';
-import gql from 'graphql-tag';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, Icon } from '@material-ui/core';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
@@ -8,23 +7,8 @@ import { useMutation } from '@apollo/react-hooks';
 import { useAuth } from '../contexts/auth-context';
 import FormikTextField from './FormikTextField';
 import boxShadow from './shared/boxShadow';
-
-const SIGN_UP = gql`
-  mutation SignUp($name: String!, $email: String!, $password: String!) {
-    signup(name: $name, email: $email, password: $password) {
-      id
-    }
-  }
-`;
-
-const LOG_IN = gql`
-  mutation LogIn($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      name
-      email
-    }
-  }
-`;
+import { PROJECTS } from '../query';
+import { SIGN_UP, LOG_IN, CREATE_PROJECT, CREATE_TASK } from '../mutation';
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string()
@@ -89,6 +73,26 @@ const ErrorIcon = styled(Icon)`
 const AuthenticationForm = () => {
   const [signUp] = useMutation(SIGN_UP);
   const [logIn] = useMutation(LOG_IN);
+  const [createTask] = useMutation(CREATE_TASK, {
+    update: (cache, { data: { createTask } }) => {
+      const data = cache.readQuery({ query: PROJECTS });
+      data.projects[0].tasks.push(createTask);
+      cache.writeQuery({
+        query: PROJECTS,
+        data
+      });
+    }
+  });
+  const [createProject] = useMutation(CREATE_PROJECT, {
+    onCompleted: async data => {
+      await createTask({
+        variables: {
+          projectId: data.createProject.id,
+          title: 'New Task'
+        }
+      });
+    }
+  });
   const [initialValues, setInitialValues] = useState({
     email: '',
     password: ''
@@ -120,6 +124,11 @@ const AuthenticationForm = () => {
               name: values.name,
               email: values.email,
               password: values.password
+            }
+          });
+          await createProject({
+            variables: {
+              title: 'New Project'
             }
           });
         }
@@ -201,7 +210,6 @@ const AuthenticationForm = () => {
                     ...initialValues
                   }));
                 }
-                console.log(initialValues);
               }}
             >
               {action.displayText}

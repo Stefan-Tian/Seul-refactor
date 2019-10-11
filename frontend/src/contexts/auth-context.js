@@ -1,17 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
+import { CURRENT_USER } from '../query';
 
 const AuthContext = React.createContext();
-
-const CURRENT_USER = gql`
-  {
-    currentUser {
-      name
-      email
-    }
-  }
-`;
 
 const AuthProvider = props => {
   const [currentUser, setCurrentUser] = useState(null);

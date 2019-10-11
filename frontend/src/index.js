@@ -15,7 +15,11 @@ const httpLink = new createHttpLink({
 
 const client = new ApolloClient({
   link: httpLink,
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
+  onError: ({ networkError, graphQLErrors }) => {
+    console.log('graphQLErrors', graphQLErrors);
+    console.log('networkError', networkError);
+  }
 });
 
 ReactDOM.render(
