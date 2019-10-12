@@ -66,7 +66,7 @@ export const useDeleteTask = (projectId, taskId) => {
 
 export const useCreateProject = () => {
   const [createTask] = useCreateTask();
-  const [createProject] = useMutation(CREATE_PROJECT, {
+  const [createProject, { loading }] = useMutation(CREATE_PROJECT, {
     update: (cache, { data: { createProject } }) => {
       const data = cache.readQuery({ query: PROJECTS });
       createProject.tasks = [];
@@ -87,7 +87,7 @@ export const useCreateProject = () => {
     }
   });
 
-  return [createProject];
+  return [createProject, loading];
 };
 
 export const useDeleteProject = projectId => {

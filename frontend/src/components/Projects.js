@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import styled from 'styled-components';
 import Project from './Project';
-import { Box, Icon, Button } from '@material-ui/core';
+import { Box, Icon, Button, CircularProgress } from '@material-ui/core';
 import { PROJECTS } from '../query';
 import { useCreateProject } from '../custom-hooks/project';
 
@@ -19,9 +19,15 @@ const NewProjectButton = styled(Button)`
   }
 `;
 
+const Loading = styled(CircularProgress)`
+  && {
+    color: #6a3093;
+  }
+`;
+
 const Projects = () => {
   const { loading, error, data } = useQuery(PROJECTS);
-  const [createProject] = useCreateProject();
+  const [createProject, projectLoading] = useCreateProject();
 
   if (loading) {
     return <div>Loading...</div>;
@@ -38,19 +44,30 @@ const Projects = () => {
           <Project key={id} projectId={id} projectTitle={title} tasks={tasks} />
         ))}
       </Box>
-      <Box textAlign="right">
-        <NewProjectButton
-          variant="contained"
-          onClick={() =>
-            createProject({
-              variables: {
-                title: 'New Project'
+      <Box
+        textAlign="right"
+        display="flex"
+        alignItems="center"
+        justifyContent="flex-end"
+      >
+        {projectLoading ? (
+          <Loading size="24px" />
+        ) : (
+          <>
+            <NewProjectButton
+              variant="contained"
+              onClick={() =>
+                createProject({
+                  variables: {
+                    title: 'New Project'
+                  }
+                })
               }
-            })
-          }
-        >
-          <Icon>add</Icon>
-        </NewProjectButton>
+            >
+              <Icon>add</Icon>
+            </NewProjectButton>
+          </>
+        )}
       </Box>
     </>
   );

@@ -171,7 +171,11 @@ const Task = ({
             handleUpdate={handleUpdateTask}
           />
         </Box>
-        <DatePicker handleUpdate={handleUpdateTask} />
+        <DatePicker
+          handleUpdate={handleUpdateTask}
+          startDate={startDate}
+          endDate={endDate}
+        />
       </Box>
     </ItemContainer>
   );
