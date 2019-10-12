@@ -25,9 +25,13 @@ const CustomSelect = styled(Select)`
   }
   &&.MuiInput-underline::before {
     width: 85%;
+    border-width: 2px;
+    border-color: ${grey[300]};
   }
   && > .MuiInputBase-input {
     padding: 3px 25px 3px 3px;
+    color: #fff;
+    font-size: 14px;
   }
 `;
 
