@@ -13,12 +13,15 @@ const DateContainer = styled.div`
   justify-content: center;
   padding: 12px;
   color: #fff;
-  width: 185px;
+  width: 220px;
   border-radius: 8px;
   margin-right: 10px;
   position: relative;
   height: 42px;
   font-size: 12px;
+  color: hsla(264, 100%, 95%, 1);
+  font-weight: 800;
+  cursor: pointer;
 `;
 
 const DatePickerPositioner = styled.div`

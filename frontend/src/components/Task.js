@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Box, Typography, TextField } from '@material-ui/core';
-import { teal, blue, red, amber } from '@material-ui/core/colors';
+import { teal, red, lightBlue, amber } from '@material-ui/core/colors';
 import { useMutation } from '@apollo/react-hooks';
 import styled from 'styled-components';
 import boxShadow from './shared/boxShadow';
@@ -13,30 +13,41 @@ import { useDeleteTask } from '../custom-hooks/project';
 const statusOptions = [
   {
     text: 'working on it',
-    bgColor: blue[500]
+    bgColor: lightBlue[800],
+    textColor: 'hsla(201, 100%, 90%, 1)'
   },
   {
     text: 'stuck',
-    bgColor: red[600]
+    bgColor: red[600],
+    textColor: 'hsla(325, 100%, 91%, 1)'
+  },
+  {
+    text: 'on hold',
+    bgColor: amber[700],
+    textColor: 'hsla(38, 100%, 88%, 1)'
   },
   {
     text: 'done',
-    bgColor: amber[700]
+    bgColor: teal[700],
+    textColor: 'hsla(140, 100%, 90%, 1)'
   }
 ];
 
 const priorityOptions = [
   {
     text: 'low',
-    bgColor: amber[700]
+    bgColor: amber[700],
+    textColor: 'hsla(38, 100%, 88%, 1)'
   },
   {
     text: 'medium',
-    bgColor: blue[500]
+    bgColor: lightBlue[800],
+    textColor: 'hsla(201, 100%, 90%, 1)'
   },
   {
     text: 'high',
-    bgColor: red[600]
+    bgColor: red[600],
+    textColor: 'hsla(325, 100%, 91%, 1)'
   }
 ];
 
@@ -114,7 +125,7 @@ const Task = ({
           alignItems="center"
           width="55%"
         >
-          <Box marginRight="auto">
+          <Box marginRight="auto" maxWidth="300px">
             {edit ? (
               <form>
                 <TextField
