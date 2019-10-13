@@ -59,7 +59,7 @@ const Header = () => {
   }, [hasUser, setBgColor]);
 
   const handleScroll = useCallback(() => {
-    if (window.scrollY > 100) {
+    if (window.scrollY > 10) {
       setBgColor('#fbfbfb');
     } else {
       setBgColor('rgba(0, 0, 0, 0)');

@@ -10,6 +10,18 @@ import {
 
 export const useCreateTask = (projectId = null) => {
   const [createTask, { loading }] = useMutation(CREATE_TASK, {
+    optimisticResponse: {
+      __typename: 'Mutation',
+      createTask: {
+        __typename: 'createTask',
+        id: '123455',
+        title: 'New Task',
+        priority: 0,
+        status: 0,
+        startDate: moment(),
+        endDate: moment().add(1, 'days')
+      }
+    },
     update: (cache, { data: { createTask } }) => {
       const data = cache.readQuery({ query: PROJECTS });
       if (!projectId) {
