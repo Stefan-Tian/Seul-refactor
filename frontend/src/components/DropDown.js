@@ -9,10 +9,14 @@ const Div = styled.div`
   justify-content: center;
   background-color: ${({ bgColor }) => bgColor};
   height: 42px;
-  color: #fff;
+  color: ${({ color }) => color};
+  font-weight: 900;
   min-width: 125px;
   border-radius: 8px;
   margin-right: 10px;
+  text-transform: uppercase;
+  font-size: 12px;
+  cursor: pointer;
 
   &:hover {
     padding: 5px;
@@ -57,6 +61,7 @@ const DropDown = ({ type, options, defaultVal, handleUpdate }) => {
   }, [setOpen, setShowSelect]);
 
   const bgColor = value !== -1 ? options[value].bgColor : grey[500];
+  const textColor = value !== -1 ? options[value].textColor : '#fff';
   const text = value !== -1 ? options[value].text : '--';
 
   return (
@@ -64,6 +69,7 @@ const DropDown = ({ type, options, defaultVal, handleUpdate }) => {
       onMouseEnter={() => setShowSelect(true)}
       onMouseLeave={() => setShowSelect(false)}
       bgColor={bgColor}
+      color={textColor}
     >
       {showSelect ? (
         <CustomSelect
