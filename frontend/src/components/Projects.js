@@ -1,9 +1,7 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
 import styled from 'styled-components';
 import Project from './Project';
 import { Box, Icon, Button, CircularProgress } from '@material-ui/core';
-import { PROJECTS } from '../query';
 import { useCreateProject } from '../custom-hooks/project';
 
 const NewProjectButton = styled(Button)`
@@ -25,22 +23,13 @@ const Loading = styled(CircularProgress)`
   }
 `;
 
-const Projects = () => {
-  const { loading, error, data } = useQuery(PROJECTS);
+const Projects = ({ projects }) => {
   const [createProject, projectLoading] = useCreateProject();
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Something went terribly wrong.</div>;
-  }
 
   return (
     <>
       <Box>
-        {data.projects.map(({ id, title, tasks }) => (
+        {projects.map(({ id, title, tasks }) => (
           <Project key={id} projectId={id} projectTitle={title} tasks={tasks} />
         ))}
       </Box>
