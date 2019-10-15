@@ -8,12 +8,29 @@ import 'dhtmlx-gantt/codebase/dhtmlxgantt.css';
 const TimelineContainer = styled.div`
   && {
     .gantt_task_row {
+      border: 0 !important;
+    }
+    .gantt_data_area {
+      .gantt_task_bg {
+      }
+    }
+
+    .gantt_task_content {
       border: 0;
     }
     .gantt_task_line {
       border-radius: 8px;
       border: 0;
-      background-color: ${teal[500]};
+
+      .gantt_task_content {
+        font-weight: 800;
+      }
+      .gantt_task_progress_drag {
+        display: none;
+      }
+      .gantt_link_point {
+        display: none;
+      }
     }
     .gantt_container {
       border: 0;
@@ -26,10 +43,6 @@ const TimelineContainer = styled.div`
     }
     .gantt_task_scale {
       background-color: ${grey[100]};
-    }
-    .gantt_task_content {
-      font-weight: 800;
-      color: #313131;
     }
   }
 `;
