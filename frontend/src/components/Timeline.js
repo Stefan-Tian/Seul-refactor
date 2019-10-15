@@ -7,12 +7,12 @@ import 'dhtmlx-gantt/codebase/dhtmlxgantt.css';
 
 const TimelineContainer = styled.div`
   && {
+    .gantt_task_line.gantt_task_inline_color.gantt_project.gantt_selected,
+    .gantt_task_line.gantt_task_inline_color.gantt_selected {
+      box-shadow: none;
+    }
     .gantt_task_row {
       border: 0 !important;
-    }
-    .gantt_data_area {
-      .gantt_task_bg {
-      }
     }
 
     .gantt_task_content {
@@ -94,10 +94,12 @@ const Timeline = ({ projects }) => {
   });
 
   let ganttContainer = useRef(null);
+
   useEffect(() => {
     gantt.config.date_format = '%d-%m-%Y';
     gantt.config.show_task_cells = false;
     gantt.config.show_grid = false;
+    gantt.config.readonly = true;
     gantt.init(ganttContainer.current);
     gantt.clearAll();
     gantt.parse(data);
