@@ -38,10 +38,6 @@ const DatePickerPositioner = styled.div`
       align-items: center;
       background-color: ${indigo[400]};
 
-      /* .DateInput {
-        width: 106px;
-      } */
-
       &__withBorder {
         border-radius: 8px;
       }

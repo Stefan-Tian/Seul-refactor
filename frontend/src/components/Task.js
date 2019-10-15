@@ -12,22 +12,22 @@ import { useDeleteTask } from '../custom-hooks/project';
 
 const statusOptions = [
   {
-    text: 'working on it',
+    text: 'DOING IT',
     bgColor: lightBlue[800],
     textColor: 'hsla(201, 100%, 90%, 1)'
   },
   {
-    text: 'stuck',
+    text: "I'M STUCK",
     bgColor: red[600],
     textColor: 'hsla(325, 100%, 91%, 1)'
   },
   {
-    text: 'on hold',
+    text: 'LATER',
     bgColor: amber[700],
     textColor: 'hsla(38, 100%, 88%, 1)'
   },
   {
-    text: 'done',
+    text: 'DONEZO',
     bgColor: teal[700],
     textColor: 'hsla(140, 100%, 90%, 1)'
   }
