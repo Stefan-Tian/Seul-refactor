@@ -9,6 +9,7 @@ import DatePicker from './DatePicker';
 import { UPDATE_TASK } from '../mutation';
 import { EditIcon, EditTitle } from './shared/edit';
 import { useDeleteTask } from '../custom-hooks/project';
+import ChatRoom from './ChatRoom';
 
 const statusOptions = [
   {
@@ -51,6 +52,10 @@ const priorityOptions = [
   }
 ];
 
+const ClickableText = styled(Typography)`
+  cursor: pointer;
+`;
+
 export const ItemContainer = styled(Box)`
   margin-bottom: 10px;
   border-radius: 0 8px 8px 0;
@@ -77,6 +82,10 @@ const Task = ({
   endDate
 }) => {
   const [edit, setShowEdit] = useState(false);
+  const [openChatRoom, setOpenChatRoom] = useState(false);
+  const toggleChatRoom = useCallback(status => setOpenChatRoom(!status), [
+    setOpenChatRoom
+  ]);
   const [value, setValue] = useState({
     id,
     title,
@@ -116,79 +125,89 @@ const Task = ({
   );
 
   return (
-    <ItemContainer display="flex">
-      <Box display="flex" width="100%" alignItems="center">
-        <EditTitle
-          padding="15px"
-          mr="auto"
-          display="flex"
-          alignItems="center"
-          width="55%"
-        >
-          <Box marginRight="auto" maxWidth="300px">
-            {edit ? (
-              <form>
-                <TextField
-                  placeholder={title}
-                  value={value.title}
-                  onChange={e => {
-                    setValue({ ...value, title: e.target.value });
-                  }}
-                />
-              </form>
+    <>
+      <ItemContainer display="flex">
+        <Box display="flex" width="100%" alignItems="center">
+          <EditTitle
+            padding="15px"
+            mr="auto"
+            display="flex"
+            alignItems="center"
+            width="55%"
+          >
+            <Box marginRight="auto" maxWidth="300px">
+              {edit ? (
+                <form>
+                  <TextField
+                    placeholder={title}
+                    value={value.title}
+                    onChange={e => {
+                      setValue({ ...value, title: e.target.value });
+                    }}
+                  />
+                </form>
+              ) : (
+                <ClickableText
+                  noWrap={true}
+                  onClick={() => toggleChatRoom(openChatRoom)}
+                >
+                  {value.title}
+                </ClickableText>
+              )}
+            </Box>
+            {!edit ? (
+              <>
+                <EditIcon mr="8px" onClick={() => setShowEdit(true)}>
+                  edit
+                </EditIcon>
+                <EditIcon
+                  onClick={() =>
+                    deleteTask({
+                      variables: {
+                        id
+                      }
+                    })
+                  }
+                >
+                  delete
+                </EditIcon>
+              </>
             ) : (
-              <Typography noWrap={true}>{value.title}</Typography>
+              <>
+                <EditIcon mr="8px" onClick={() => handleUpdateTask('title')}>
+                  check
+                </EditIcon>
+                <EditIcon onClick={() => setShowEdit(false)}>close</EditIcon>
+              </>
             )}
+          </EditTitle>
+          <Box paddingY="10px">
+            <DropDown
+              type="status"
+              options={statusOptions}
+              defaultVal={status}
+              handleUpdate={handleUpdateTask}
+            />
           </Box>
-          {!edit ? (
-            <>
-              <EditIcon mr="8px" onClick={() => setShowEdit(true)}>
-                edit
-              </EditIcon>
-              <EditIcon
-                onClick={() =>
-                  deleteTask({
-                    variables: {
-                      id
-                    }
-                  })
-                }
-              >
-                delete
-              </EditIcon>
-            </>
-          ) : (
-            <>
-              <EditIcon mr="8px" onClick={() => handleUpdateTask('title')}>
-                check
-              </EditIcon>
-              <EditIcon onClick={() => setShowEdit(false)}>close</EditIcon>
-            </>
-          )}
-        </EditTitle>
-        <Box paddingY="10px">
-          <DropDown
-            type="status"
-            options={statusOptions}
-            defaultVal={status}
+          <Box paddingY="10px">
+            <DropDown
+              type="priority"
+              options={priorityOptions}
+              defaultVal={priority}
+              handleUpdate={handleUpdateTask}
+            />
+          </Box>
+          <DatePicker
             handleUpdate={handleUpdateTask}
+            startDate={startDate}
+            endDate={endDate}
           />
         </Box>
-        <Box paddingY="10px">
-          <DropDown
-            type="priority"
-            options={priorityOptions}
-            defaultVal={priority}
-            handleUpdate={handleUpdateTask}
-          />
-        </Box>
-        <DatePicker
-          handleUpdate={handleUpdateTask}
-          startDate={startDate}
-          endDate={endDate}
-        />
-      </Box>
-    </ItemContainer>
+      </ItemContainer>
+      {openChatRoom && (
+        <ChatRoom closeChatRoom={() => toggleChatRoom(true)} task={title} />
+      )}
+    </>
   );
 };
 
