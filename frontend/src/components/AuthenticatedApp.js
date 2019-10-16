@@ -19,7 +19,7 @@ const AuthenticatedApp = () => {
   return (
     <>
       <Timeline projects={data.projects} />
-      <Container maxWidth="md">
+      <Container maxWidth="md" id="my-container">
         <Box paddingY={10}>
           <Projects projects={data.projects} />
         </Box>
