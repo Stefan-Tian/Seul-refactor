@@ -115,7 +115,7 @@ export const CREATE_MESSAGE = gql`
 `;
 
 export const UPDATE_MESSAGE = gql`
-  mutation UpdateMessage($id: ID!, text: String!) {
+  mutation UpdateMessage($id: ID!, $text: String!) {
     UpdateMessage(id: $id, text: $text) {
       id
       text
