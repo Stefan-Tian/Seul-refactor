@@ -12,12 +12,26 @@ const Header = styled.div`
   color: ${teal[800]};
   border-radius: 12px 12px 0 0;
   padding: 20px;
-  font-size: 14px;
-  font-weight: 500;
+  display: flex;
+  ailgn-items: center;
+`;
+
+const HeaderText = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  /* max-width: 200px; */
+  max-width: 200px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-right: auto;
+  line-height: 20px;
+`;
+
+const CloseIcon = styled(Icon)`
+  cursor: pointer;
+  && {
+    font-size: 18px;
+  }
 `;
 
 const MessageBox = styled.div`
@@ -60,6 +74,7 @@ const MessageAvatar = styled(Avatar)`
 const MessageContainer = styled.span`
   display: flex;
   margin-bottom: 20px;
+  position: relative;
 
   ${({ index }) =>
     index === 0 || index % 2 === 0
@@ -90,6 +105,22 @@ const Message = styled.span`
     color: hsla(140, 100%, 90%, 1);
     border-radius: 10px 10px 3px 10px;
     float: right
+    `}
+`;
+
+const Read = styled.span`
+  display: inline-block;
+  color: ${grey[400]};
+  font-weight: 500;
+  font-size: 10px;
+  position: absolute;
+  bottom: -14px;
+  right: 1px;
+
+  ${({ index }) =>
+    (index === 0 || index % 2 === 0) &&
+    `
+      display: none;
     `}
 `;
 
@@ -174,7 +205,12 @@ const ChatRoom = ({ closeChatRoom, task, taskId }) => {
   return ReactDOM.createPortal(
     <MessageBox>
       <div>
-        <Header>{task}</Header>
+        <Header>
+          <HeaderText>{task}</HeaderText>
+          <CloseIcon color="primary" onClick={closeChatRoom}>
+            close
+          </CloseIcon>
+        </Header>
         <MessagesContainer>
           {loading ? (
             <Box>
@@ -202,6 +238,7 @@ const ChatRoom = ({ closeChatRoom, task, taskId }) => {
                     <Icon>person</Icon>
                   </MessageAvatar>
                   <Message index={index}>{message.text}</Message>
+                  <Read index={index}>Read</Read>
                 </MessageContainer>
               </Box>
             ))
