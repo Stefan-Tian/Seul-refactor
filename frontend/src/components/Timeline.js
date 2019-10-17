@@ -100,6 +100,7 @@ const Timeline = ({ projects }) => {
     gantt.config.show_task_cells = false;
     gantt.config.show_grid = false;
     gantt.config.readonly = true;
+    gantt.config.show_errors = false;
     gantt.init(ganttContainer.current);
     gantt.clearAll();
     gantt.parse(data);

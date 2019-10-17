@@ -1,8 +1,9 @@
 import { useMutation } from '@apollo/react-hooks';
-import { PROJECTS } from '../query';
+import { PROJECTS, TASK_MESSAGES } from '../query';
 import moment from 'moment';
 import {
   CREATE_TASK,
+  CREATE_MESSAGE,
   CREATE_PROJECT,
   DELETE_PROJECT,
   DELETE_TASK
@@ -123,4 +124,30 @@ export const useDeleteProject = projectId => {
   });
 
   return [deleteProject];
+};
+
+export const useCreateMessage = taskId => {
+  const [createMessage] = useMutation(CREATE_MESSAGE, {
+    // optimisticResponse: {
+    //   __typename: 'Mutation',
+    //   createTask: {
+    //     __typename: 'createMessage',
+    //     taskId,
+    //     text
+    //   }
+    // },
+    update: (cache, { data: { createMessage } }) => {
+      const data = cache.readQuery({
+        query: TASK_MESSAGES,
+        variables: {
+          id: taskId
+        }
+      });
+      console.log(data);
+      data.task.messages.push(createMessage);
+      cache.writeQuery({ query: TASK_MESSAGES, data });
+    }
+  });
+
+  return [createMessage];
 };

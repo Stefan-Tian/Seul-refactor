@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import ReactDOM from 'react-dom';
+import { useQuery } from '@apollo/react-hooks';
 import { Box, Avatar, Icon } from '@material-ui/core';
 import { teal, grey } from '@material-ui/core/colors';
 import styled from 'styled-components';
+import { TASK_MESSAGES } from '../query';
+import { useCreateMessage } from '../custom-hooks/project';
 
 const Header = styled.div`
   background-color: ${teal[200]};
@@ -36,6 +39,7 @@ const MessagesContainer = styled.div`
   display: flex;
   height: 280px;
   flex-direction: column;
+  overflow: scroll;
 `;
 
 const MessageAvatar = styled(Avatar)`
@@ -132,32 +136,86 @@ const SendIcon = styled(Icon)`
   }
 `;
 
-const ChatRoom = ({ closeChatRoom, task }) => {
-  const messages = ['hello', 'hey', 'dude'];
+const ChatRoom = ({ closeChatRoom, task, taskId }) => {
+  const messageText = useRef('');
+  const bottom = useRef(null);
+  const { loading, error, data } = useQuery(TASK_MESSAGES, {
+    variables: {
+      id: taskId
+    }
+  });
+  const [createMessage] = useCreateMessage(taskId);
+  const scrollToBottom = useCallback(() => {
+    bottom.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'start'
+    });
+  }, [bottom]);
+  const handleSubmitMessage = useCallback(
+    async e => {
+      e.preventDefault();
+      if (messageText.current.value === '') {
+        return;
+      }
+      await createMessage({
+        variables: {
+          taskId,
+          text: messageText.current.value
+        }
+      });
+      scrollToBottom();
+      messageText.current.value = '';
+    },
+    [messageText, createMessage, taskId, scrollToBottom]
+  );
+  useEffect(scrollToBottom, [data, scrollToBottom]);
   const root = document.getElementById('root');
   return ReactDOM.createPortal(
     <MessageBox>
       <div>
         <Header>{task}</Header>
         <MessagesContainer>
-          {messages.map((message, index) => (
-            <Box key={message}>
-              <MessageContainer index={index}>
-                <MessageAvatar index={index}>
+          {loading ? (
+            <Box>
+              <MessageContainer index={0}>
+                <MessageAvatar index={0}>
                   <Icon>person</Icon>
                 </MessageAvatar>
-                <Message index={index}>{message}</Message>
+                <Message index={0}>loading...</Message>
               </MessageContainer>
             </Box>
-          ))}
+          ) : error ? (
+            <Box>
+              <MessageContainer index={0}>
+                <MessageAvatar index={0}>
+                  <Icon>person</Icon>
+                </MessageAvatar>
+                <Message index={0}>There seems to be an error.</Message>
+              </MessageContainer>
+            </Box>
+          ) : (
+            data.task.messages.map((message, index) => (
+              <Box key={message.id}>
+                <MessageContainer index={index}>
+                  <MessageAvatar index={index}>
+                    <Icon>person</Icon>
+                  </MessageAvatar>
+                  <Message index={index}>{message.text}</Message>
+                </MessageContainer>
+              </Box>
+            ))
+          )}
+          <div ref={bottom}></div>
         </MessagesContainer>
         <MessageInputContainer
           display="flex"
           alignItems="center"
           paddingX="18px"
+          component="form"
         >
-          <MessageInput placeholder="Type your message..." />
-          <MessageSendButton>
+          <MessageInput placeholder="Type your message..." ref={messageText} />
+          <MessageSendButton type="submit" onClick={handleSubmitMessage}>
             <SendIcon>add</SendIcon>
           </MessageSendButton>
         </MessageInputContainer>

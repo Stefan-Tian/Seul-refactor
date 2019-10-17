@@ -44,7 +44,6 @@ const Project = ({ projectId, projectTitle, tasks }) => {
     setEdit(false);
   }, [updateProject, setEdit, title, projectId]);
   const [createTask, loading] = useCreateTask(projectId);
-  console.log('project rendered');
 
   return (
     <Box marginBottom="30px">
