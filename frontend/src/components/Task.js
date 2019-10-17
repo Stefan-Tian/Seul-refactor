@@ -205,7 +205,11 @@ const Task = ({
         </Box>
       </ItemContainer>
       {openChatRoom && (
-        <ChatRoom closeChatRoom={() => toggleChatRoom(true)} task={title} />
+        <ChatRoom
+          closeChatRoom={() => toggleChatRoom(true)}
+          task={title}
+          taskId={id}
+        />
       )}
     </>
   );

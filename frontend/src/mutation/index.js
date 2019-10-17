@@ -104,3 +104,30 @@ export const DELETE_TASK = gql`
     }
   }
 `;
+
+export const CREATE_MESSAGE = gql`
+  mutation CreateMessage($text: String!, $taskId: String!) {
+    createMessage(text: $text, taskId: $taskId) {
+      id
+      text
+    }
+  }
+`;
+
+export const UPDATE_MESSAGE = gql`
+  mutation UpdateMessage($id: ID!, text: String!) {
+    UpdateMessage(id: $id, text: $text) {
+      id
+      text
+    }
+  }
+`;
+
+export const DELETE_MESSAGE = gql`
+  mutation DeleteMessage($id: ID!) {
+    DeleteMessage(id: $id, text: $text) {
+      id
+      text
+    }
+  }
+`;
