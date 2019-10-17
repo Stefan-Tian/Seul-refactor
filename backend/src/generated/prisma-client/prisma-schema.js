@@ -3,7 +3,11 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateProject {
+/* GraphQL */ `type AggregateMessage {
+  count: Int!
+}
+
+type AggregateProject {
   count: Int!
 }
 
@@ -23,7 +27,239 @@ scalar DateTime
 
 scalar Long
 
+type Message {
+  id: ID!
+  text: String!
+  inTask: Task
+  createdBy: User
+}
+
+type MessageConnection {
+  pageInfo: PageInfo!
+  edges: [MessageEdge]!
+  aggregate: AggregateMessage!
+}
+
+input MessageCreateInput {
+  id: ID
+  text: String!
+  inTask: TaskCreateOneWithoutMessagesInput
+  createdBy: UserCreateOneWithoutMessagesInput
+}
+
+input MessageCreateManyWithoutCreatedByInput {
+  create: [MessageCreateWithoutCreatedByInput!]
+  connect: [MessageWhereUniqueInput!]
+}
+
+input MessageCreateManyWithoutInTaskInput {
+  create: [MessageCreateWithoutInTaskInput!]
+  connect: [MessageWhereUniqueInput!]
+}
+
+input MessageCreateWithoutCreatedByInput {
+  id: ID
+  text: String!
+  inTask: TaskCreateOneWithoutMessagesInput
+}
+
+input MessageCreateWithoutInTaskInput {
+  id: ID
+  text: String!
+  createdBy: UserCreateOneWithoutMessagesInput
+}
+
+type MessageEdge {
+  node: Message!
+  cursor: String!
+}
+
+enum MessageOrderByInput {
+  id_ASC
+  id_DESC
+  text_ASC
+  text_DESC
+}
+
+type MessagePreviousValues {
+  id: ID!
+  text: String!
+}
+
+input MessageScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  text: String
+  text_not: String
+  text_in: [String!]
+  text_not_in: [String!]
+  text_lt: String
+  text_lte: String
+  text_gt: String
+  text_gte: String
+  text_contains: String
+  text_not_contains: String
+  text_starts_with: String
+  text_not_starts_with: String
+  text_ends_with: String
+  text_not_ends_with: String
+  AND: [MessageScalarWhereInput!]
+  OR: [MessageScalarWhereInput!]
+  NOT: [MessageScalarWhereInput!]
+}
+
+type MessageSubscriptionPayload {
+  mutation: MutationType!
+  node: Message
+  updatedFields: [String!]
+  previousValues: MessagePreviousValues
+}
+
+input MessageSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: MessageWhereInput
+  AND: [MessageSubscriptionWhereInput!]
+  OR: [MessageSubscriptionWhereInput!]
+  NOT: [MessageSubscriptionWhereInput!]
+}
+
+input MessageUpdateInput {
+  text: String
+  inTask: TaskUpdateOneWithoutMessagesInput
+  createdBy: UserUpdateOneWithoutMessagesInput
+}
+
+input MessageUpdateManyDataInput {
+  text: String
+}
+
+input MessageUpdateManyMutationInput {
+  text: String
+}
+
+input MessageUpdateManyWithoutCreatedByInput {
+  create: [MessageCreateWithoutCreatedByInput!]
+  delete: [MessageWhereUniqueInput!]
+  connect: [MessageWhereUniqueInput!]
+  set: [MessageWhereUniqueInput!]
+  disconnect: [MessageWhereUniqueInput!]
+  update: [MessageUpdateWithWhereUniqueWithoutCreatedByInput!]
+  upsert: [MessageUpsertWithWhereUniqueWithoutCreatedByInput!]
+  deleteMany: [MessageScalarWhereInput!]
+  updateMany: [MessageUpdateManyWithWhereNestedInput!]
+}
+
+input MessageUpdateManyWithoutInTaskInput {
+  create: [MessageCreateWithoutInTaskInput!]
+  delete: [MessageWhereUniqueInput!]
+  connect: [MessageWhereUniqueInput!]
+  set: [MessageWhereUniqueInput!]
+  disconnect: [MessageWhereUniqueInput!]
+  update: [MessageUpdateWithWhereUniqueWithoutInTaskInput!]
+  upsert: [MessageUpsertWithWhereUniqueWithoutInTaskInput!]
+  deleteMany: [MessageScalarWhereInput!]
+  updateMany: [MessageUpdateManyWithWhereNestedInput!]
+}
+
+input MessageUpdateManyWithWhereNestedInput {
+  where: MessageScalarWhereInput!
+  data: MessageUpdateManyDataInput!
+}
+
+input MessageUpdateWithoutCreatedByDataInput {
+  text: String
+  inTask: TaskUpdateOneWithoutMessagesInput
+}
+
+input MessageUpdateWithoutInTaskDataInput {
+  text: String
+  createdBy: UserUpdateOneWithoutMessagesInput
+}
+
+input MessageUpdateWithWhereUniqueWithoutCreatedByInput {
+  where: MessageWhereUniqueInput!
+  data: MessageUpdateWithoutCreatedByDataInput!
+}
+
+input MessageUpdateWithWhereUniqueWithoutInTaskInput {
+  where: MessageWhereUniqueInput!
+  data: MessageUpdateWithoutInTaskDataInput!
+}
+
+input MessageUpsertWithWhereUniqueWithoutCreatedByInput {
+  where: MessageWhereUniqueInput!
+  update: MessageUpdateWithoutCreatedByDataInput!
+  create: MessageCreateWithoutCreatedByInput!
+}
+
+input MessageUpsertWithWhereUniqueWithoutInTaskInput {
+  where: MessageWhereUniqueInput!
+  update: MessageUpdateWithoutInTaskDataInput!
+  create: MessageCreateWithoutInTaskInput!
+}
+
+input MessageWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  text: String
+  text_not: String
+  text_in: [String!]
+  text_not_in: [String!]
+  text_lt: String
+  text_lte: String
+  text_gt: String
+  text_gte: String
+  text_contains: String
+  text_not_contains: String
+  text_starts_with: String
+  text_not_starts_with: String
+  text_ends_with: String
+  text_not_ends_with: String
+  inTask: TaskWhereInput
+  createdBy: UserWhereInput
+  AND: [MessageWhereInput!]
+  OR: [MessageWhereInput!]
+  NOT: [MessageWhereInput!]
+}
+
+input MessageWhereUniqueInput {
+  id: ID
+}
+
 type Mutation {
+  createMessage(data: MessageCreateInput!): Message!
+  updateMessage(data: MessageUpdateInput!, where: MessageWhereUniqueInput!): Message
+  updateManyMessages(data: MessageUpdateManyMutationInput!, where: MessageWhereInput): BatchPayload!
+  upsertMessage(where: MessageWhereUniqueInput!, create: MessageCreateInput!, update: MessageUpdateInput!): Message!
+  deleteMessage(where: MessageWhereUniqueInput!): Message
+  deleteManyMessages(where: MessageWhereInput): BatchPayload!
   createProject(data: ProjectCreateInput!): Project!
   updateProject(data: ProjectUpdateInput!, where: ProjectWhereUniqueInput!): Project
   updateManyProjects(data: ProjectUpdateManyMutationInput!, where: ProjectWhereInput): BatchPayload!
@@ -301,6 +537,9 @@ input ProjectWhereUniqueInput {
 }
 
 type Query {
+  message(where: MessageWhereUniqueInput!): Message
+  messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message]!
+  messagesConnection(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MessageConnection!
   project(where: ProjectWhereUniqueInput!): Project
   projects(where: ProjectWhereInput, orderBy: ProjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Project]!
   projectsConnection(where: ProjectWhereInput, orderBy: ProjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProjectConnection!
@@ -314,6 +553,7 @@ type Query {
 }
 
 type Subscription {
+  message(where: MessageSubscriptionWhereInput): MessageSubscriptionPayload
   project(where: ProjectSubscriptionWhereInput): ProjectSubscriptionPayload
   task(where: TaskSubscriptionWhereInput): TaskSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
@@ -327,6 +567,7 @@ type Task {
   status: Int
   startDate: DateTime
   endDate: DateTime
+  messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message!]
   createdBy: User
   inProject: Project
 }
@@ -344,6 +585,7 @@ input TaskCreateInput {
   status: Int
   startDate: DateTime
   endDate: DateTime
+  messages: MessageCreateManyWithoutInTaskInput
   createdBy: UserCreateOneWithoutTasksInput
   inProject: ProjectCreateOneWithoutTasksInput
 }
@@ -358,6 +600,11 @@ input TaskCreateManyWithoutInProjectInput {
   connect: [TaskWhereUniqueInput!]
 }
 
+input TaskCreateOneWithoutMessagesInput {
+  create: TaskCreateWithoutMessagesInput
+  connect: TaskWhereUniqueInput
+}
+
 input TaskCreateWithoutCreatedByInput {
   id: ID
   title: String!
@@ -365,6 +612,7 @@ input TaskCreateWithoutCreatedByInput {
   status: Int
   startDate: DateTime
   endDate: DateTime
+  messages: MessageCreateManyWithoutInTaskInput
   inProject: ProjectCreateOneWithoutTasksInput
 }
 
@@ -375,7 +623,19 @@ input TaskCreateWithoutInProjectInput {
   status: Int
   startDate: DateTime
   endDate: DateTime
+  messages: MessageCreateManyWithoutInTaskInput
   createdBy: UserCreateOneWithoutTasksInput
+}
+
+input TaskCreateWithoutMessagesInput {
+  id: ID
+  title: String!
+  priority: Int
+  status: Int
+  startDate: DateTime
+  endDate: DateTime
+  createdBy: UserCreateOneWithoutTasksInput
+  inProject: ProjectCreateOneWithoutTasksInput
 }
 
 type TaskEdge {
@@ -508,6 +768,7 @@ input TaskUpdateInput {
   status: Int
   startDate: DateTime
   endDate: DateTime
+  messages: MessageUpdateManyWithoutInTaskInput
   createdBy: UserUpdateOneWithoutTasksInput
   inProject: ProjectUpdateOneWithoutTasksInput
 }
@@ -557,12 +818,22 @@ input TaskUpdateManyWithWhereNestedInput {
   data: TaskUpdateManyDataInput!
 }
 
+input TaskUpdateOneWithoutMessagesInput {
+  create: TaskCreateWithoutMessagesInput
+  update: TaskUpdateWithoutMessagesDataInput
+  upsert: TaskUpsertWithoutMessagesInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: TaskWhereUniqueInput
+}
+
 input TaskUpdateWithoutCreatedByDataInput {
   title: String
   priority: Int
   status: Int
   startDate: DateTime
   endDate: DateTime
+  messages: MessageUpdateManyWithoutInTaskInput
   inProject: ProjectUpdateOneWithoutTasksInput
 }
 
@@ -572,7 +843,18 @@ input TaskUpdateWithoutInProjectDataInput {
   status: Int
   startDate: DateTime
   endDate: DateTime
+  messages: MessageUpdateManyWithoutInTaskInput
   createdBy: UserUpdateOneWithoutTasksInput
+}
+
+input TaskUpdateWithoutMessagesDataInput {
+  title: String
+  priority: Int
+  status: Int
+  startDate: DateTime
+  endDate: DateTime
+  createdBy: UserUpdateOneWithoutTasksInput
+  inProject: ProjectUpdateOneWithoutTasksInput
 }
 
 input TaskUpdateWithWhereUniqueWithoutCreatedByInput {
@@ -583,6 +865,11 @@ input TaskUpdateWithWhereUniqueWithoutCreatedByInput {
 input TaskUpdateWithWhereUniqueWithoutInProjectInput {
   where: TaskWhereUniqueInput!
   data: TaskUpdateWithoutInProjectDataInput!
+}
+
+input TaskUpsertWithoutMessagesInput {
+  update: TaskUpdateWithoutMessagesDataInput!
+  create: TaskCreateWithoutMessagesInput!
 }
 
 input TaskUpsertWithWhereUniqueWithoutCreatedByInput {
@@ -666,6 +953,9 @@ input TaskWhereInput {
   endDate_lte: DateTime
   endDate_gt: DateTime
   endDate_gte: DateTime
+  messages_every: MessageWhereInput
+  messages_some: MessageWhereInput
+  messages_none: MessageWhereInput
   createdBy: UserWhereInput
   inProject: ProjectWhereInput
   AND: [TaskWhereInput!]
@@ -684,6 +974,7 @@ type User {
   password: String!
   projects(where: ProjectWhereInput, orderBy: ProjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Project!]
   tasks(where: TaskWhereInput, orderBy: TaskOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Task!]
+  messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message!]
 }
 
 type UserConnection {
@@ -699,6 +990,12 @@ input UserCreateInput {
   password: String!
   projects: ProjectCreateManyWithoutCreatedByInput
   tasks: TaskCreateManyWithoutCreatedByInput
+  messages: MessageCreateManyWithoutCreatedByInput
+}
+
+input UserCreateOneWithoutMessagesInput {
+  create: UserCreateWithoutMessagesInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutProjectsInput {
@@ -711,12 +1008,22 @@ input UserCreateOneWithoutTasksInput {
   connect: UserWhereUniqueInput
 }
 
+input UserCreateWithoutMessagesInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+  projects: ProjectCreateManyWithoutCreatedByInput
+  tasks: TaskCreateManyWithoutCreatedByInput
+}
+
 input UserCreateWithoutProjectsInput {
   id: ID
   name: String!
   email: String!
   password: String!
   tasks: TaskCreateManyWithoutCreatedByInput
+  messages: MessageCreateManyWithoutCreatedByInput
 }
 
 input UserCreateWithoutTasksInput {
@@ -725,6 +1032,7 @@ input UserCreateWithoutTasksInput {
   email: String!
   password: String!
   projects: ProjectCreateManyWithoutCreatedByInput
+  messages: MessageCreateManyWithoutCreatedByInput
 }
 
 type UserEdge {
@@ -774,12 +1082,22 @@ input UserUpdateInput {
   password: String
   projects: ProjectUpdateManyWithoutCreatedByInput
   tasks: TaskUpdateManyWithoutCreatedByInput
+  messages: MessageUpdateManyWithoutCreatedByInput
 }
 
 input UserUpdateManyMutationInput {
   name: String
   email: String
   password: String
+}
+
+input UserUpdateOneWithoutMessagesInput {
+  create: UserCreateWithoutMessagesInput
+  update: UserUpdateWithoutMessagesDataInput
+  upsert: UserUpsertWithoutMessagesInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
 }
 
 input UserUpdateOneWithoutProjectsInput {
@@ -800,11 +1118,20 @@ input UserUpdateOneWithoutTasksInput {
   connect: UserWhereUniqueInput
 }
 
+input UserUpdateWithoutMessagesDataInput {
+  name: String
+  email: String
+  password: String
+  projects: ProjectUpdateManyWithoutCreatedByInput
+  tasks: TaskUpdateManyWithoutCreatedByInput
+}
+
 input UserUpdateWithoutProjectsDataInput {
   name: String
   email: String
   password: String
   tasks: TaskUpdateManyWithoutCreatedByInput
+  messages: MessageUpdateManyWithoutCreatedByInput
 }
 
 input UserUpdateWithoutTasksDataInput {
@@ -812,6 +1139,12 @@ input UserUpdateWithoutTasksDataInput {
   email: String
   password: String
   projects: ProjectUpdateManyWithoutCreatedByInput
+  messages: MessageUpdateManyWithoutCreatedByInput
+}
+
+input UserUpsertWithoutMessagesInput {
+  update: UserUpdateWithoutMessagesDataInput!
+  create: UserCreateWithoutMessagesInput!
 }
 
 input UserUpsertWithoutProjectsInput {
@@ -887,6 +1220,9 @@ input UserWhereInput {
   tasks_every: TaskWhereInput
   tasks_some: TaskWhereInput
   tasks_none: TaskWhereInput
+  messages_every: MessageWhereInput
+  messages_some: MessageWhereInput
+  messages_none: MessageWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

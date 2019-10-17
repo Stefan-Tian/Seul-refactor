@@ -14,6 +14,7 @@ type Task {
   status: Int
   startDate: DateTime
   endDate: DateTime
+  messages: [Message]
   createdBy: User
   inProject: Project
 }
@@ -23,6 +24,14 @@ type User {
   name: String!
   email: String! @unique
   password: String!
-  projects: [Project!]!
-  tasks: [Task!]!
+  projects: [Project]
+  tasks: [Task]
+  messages: [Message]
+}
+
+type Message {
+  id: ID! @id
+  text: String!
+  inTask: Task
+  createdBy: User
 }

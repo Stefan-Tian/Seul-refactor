@@ -36,20 +36,16 @@ const logout = (root, args, context) => {
   });
 };
 
-const createTask = async (root, args, context) => {
+const createTask = async (root, { projectId, ...rest }, context) => {
   const userId = getUserId(context);
   if (!userId) {
     throw new Error('Not Authorized!');
   }
 
   return await context.prisma.createTask({
-    title: args.title,
-    status: args.status,
-    priority: args.priority,
-    startDate: args.startDate,
-    endDate: args.endDate,
+    ...rest,
     createdBy: { connect: { id: userId } },
-    inProject: { connect: { id: args.projectId } }
+    inProject: { connect: { id: projectId } }
   });
 };
 
@@ -110,7 +106,7 @@ const updateProject = async (root, { id, ...updatedProject }, context) => {
   });
 };
 
-const deleteProject = async (parents, args, context) => {
+const deleteProject = async (root, args, context) => {
   const userId = getUserId(context);
 
   if (!userId) {
@@ -127,6 +123,53 @@ const deleteProject = async (parents, args, context) => {
   });
 };
 
+const createMessage = async (root, { taskId, ...rest }, context) => {
+  const userId = getUserId(context);
+  if (!userId) {
+    throw new Error('Not Authorized!');
+  }
+  const message = await context.prisma.createMessage({
+    ...rest,
+    createdBy: { connect: { id: userId } },
+    inTask: { connect: { id: taskId } }
+  });
+
+  return message;
+};
+
+const updateMessage = async (root, { id, text }, context) => {
+  const userId = getUserId(context);
+
+  if (!userId) {
+    throw new Error('Not Authorized!');
+  }
+
+  const updatedMessage = await context.prisma.updateMessage({
+    data: {
+      text
+    },
+    where: {
+      id
+    }
+  });
+
+  return updatedMessage;
+};
+
+const deleteMessage = async (root, { id }, context) => {
+  const userId = getUserId(context);
+
+  if (!userId) {
+    throw new Error('Not Authorized!');
+  }
+
+  const deletedMessage = await context.prisma.deleteMessage({
+    id
+  });
+
+  return deletedMessage;
+};
+
 export default {
   signup,
   login,
@@ -136,5 +179,8 @@ export default {
   deleteTask,
   createProject,
   deleteProject,
-  updateProject
+  updateProject,
+  createMessage,
+  updateMessage,
+  deleteMessage
 };

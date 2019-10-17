@@ -8,13 +8,15 @@ import Mutation from './resolvers/Mutation';
 import User from './resolvers/User';
 import Project from './resolvers/Project';
 import Task from './resolvers/Task';
+import Message from './resolvers/Message';
 
 const resolvers = {
   Query,
   Mutation,
   User,
   Project,
-  Task
+  Task,
+  Message
 };
 
 const server = new GraphQLServer({
