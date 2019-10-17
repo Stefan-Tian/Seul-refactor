@@ -29,6 +29,9 @@ type Mutation {
   createProject(title: String!): Project
   updateProject(id: ID!, title: String!): Project
   deleteProject(id: ID!): Project
+  createMessage(text: String!, taskId: String!): Message
+  updateMessage(id: ID!, text: String!): Message
+  deleteMessage(id: ID!): Message
   logout: String
 }
 
@@ -36,8 +39,9 @@ type User {
   id: ID!
   name: String!
   email: String!
-  projects: [Project!]!
-  tasks: [Task!]!
+  projects: [Project!]
+  tasks: [Task!]
+  messages: [Message!]
 }
 
 type Project {
@@ -56,4 +60,12 @@ type Task {
   createdBy: User
   startDate: String
   endDate: String
+  messages: [Message!]
+}
+
+type Message {
+  id: ID!
+  text: String!
+  inTask: Task
+  createdBy: User
 }
