@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useMutation } from '@apollo/react-hooks';
+import { ApolloConsumer } from 'react-apollo';
 import gql from 'graphql-tag';
 import { AppBar, Toolbar, Button, Typography } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
@@ -35,10 +36,14 @@ const Header = () => {
   const { updateCurrentUser } = useAuth();
   const [logout] = useMutation(LOG_OUT);
   const [openSidebar, setOpenSidebar] = useState(false);
-  const onLogOut = useCallback(async () => {
-    await logout();
-    updateCurrentUser(null);
-  }, [logout, updateCurrentUser]);
+  const onLogOut = useCallback(
+    async client => {
+      await logout();
+      updateCurrentUser(null);
+      client.resetStore();
+    },
+    [logout, updateCurrentUser]
+  );
   const toggleSidebar = open => event => {
     if (
       event.type === 'keydown' &&
@@ -88,7 +93,11 @@ const Header = () => {
             </Brand>
           </Box>
           {hasUser ? (
-            <Button onClick={onLogOut}>logout</Button>
+            <ApolloConsumer>
+              {client => (
+                <Button onClick={() => onLogOut(client)}>logout</Button>
+              )}
+            </ApolloConsumer>
           ) : (
             <Button>sign in</Button>
           )}
