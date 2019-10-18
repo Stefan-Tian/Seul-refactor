@@ -1,8 +1,11 @@
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
-import { Container, Box } from '@material-ui/core';
-import Projects from './Projects';
+import { Box } from '@material-ui/core';
+import ProjectsPage from './ProjectsPage';
 import Timeline from './Timeline';
+import Pomodoro from './Pomorodo';
+import SideNav from './SideNav';
 import { PROJECTS } from '../query';
 
 const AuthenticatedApp = () => {
@@ -18,12 +21,20 @@ const AuthenticatedApp = () => {
 
   return (
     <>
-      <Timeline projects={data.projects} />
-      <Container maxWidth="md" id="my-container">
-        <Box paddingY={10}>
-          <Projects projects={data.projects} />
+      <Router>
+        <Timeline projects={data.projects} />
+        <Box display="flex" maxWidth="1400px">
+          <SideNav />
+          <Switch>
+            <Route exact path="/">
+              <ProjectsPage data={data} />
+            </Route>
+            <Route path="/pomodoro">
+              <Pomodoro />
+            </Route>
+          </Switch>
         </Box>
-      </Container>
+      </Router>
     </>
   );
 };
