@@ -16,9 +16,18 @@ export const EditIcon = styled(Icon)`
   }
 `;
 
+export const EditIconButton = styled.button`
+  border: 0;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  background-color: rgba(0, 0, 0, 0);
+  margin-right: ${({ mr }) => (mr ? mr : '0px')};
+`;
+
 export const EditTitle = styled(Box)`
   &:hover {
-    & > ${EditIcon} {
+    ${EditIcon}, ${EditIconButton} {
       display: inline-block;
     }
   }
