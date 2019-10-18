@@ -7,7 +7,7 @@ import boxShadow from './shared/boxShadow';
 import DropDown from './DropDown';
 import DatePicker from './DatePicker';
 import { UPDATE_TASK } from '../mutation';
-import { EditIcon, EditTitle } from './shared/edit';
+import { EditIcon, EditIconButton, EditTitle } from './shared/edit';
 import { useDeleteTask } from '../custom-hooks/project';
 import ChatRoom from './ChatRoom';
 
@@ -97,7 +97,10 @@ const Task = ({
   const [updateTask] = useMutation(UPDATE_TASK);
   const [deleteTask] = useDeleteTask(projectId, id);
   const handleUpdateTask = useCallback(
-    async (field, input) => {
+    async (field, input, e) => {
+      if (e) {
+        e.preventDefault();
+      }
       const variables = { id: value.id };
       switch (field) {
         case 'title':
@@ -134,18 +137,18 @@ const Task = ({
             display="flex"
             alignItems="center"
             width="55%"
+            component="form"
+            onSubmit={e => this.updateTask('title', null, e)}
           >
             <Box marginRight="auto" maxWidth="300px">
               {edit ? (
-                <form>
-                  <TextField
-                    placeholder={title}
-                    value={value.title}
-                    onChange={e => {
-                      setValue({ ...value, title: e.target.value });
-                    }}
-                  />
-                </form>
+                <TextField
+                  placeholder={title}
+                  value={value.title}
+                  onChange={e => {
+                    setValue({ ...value, title: e.target.value });
+                  }}
+                />
               ) : (
                 <ClickableText
                   noWrap={true}
@@ -174,9 +177,13 @@ const Task = ({
               </>
             ) : (
               <>
-                <EditIcon mr="8px" onClick={() => handleUpdateTask('title')}>
-                  check
-                </EditIcon>
+                <EditIconButton
+                  type="submit"
+                  mr="8px"
+                  onClick={e => handleUpdateTask('title', null, e)}
+                >
+                  <EditIcon>check</EditIcon>
+                </EditIconButton>
                 <EditIcon onClick={() => setShowEdit(false)}>close</EditIcon>
               </>
             )}

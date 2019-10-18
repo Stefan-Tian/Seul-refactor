@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import { teal } from '@material-ui/core/colors';
 import Task from './Task';
 import { UPDATE_PROJECT } from '../mutation';
-import { EditIcon, EditTitle } from './shared/edit';
+import { EditIcon, EditIconButton, EditTitle } from './shared/edit';
 import { useCreateTask, useDeleteProject } from '../custom-hooks/project';
 
 const FatFont = styled(Typography)`
@@ -34,21 +34,32 @@ const Project = ({ projectId, projectTitle, tasks }) => {
   const [title, setTitle] = useState(projectTitle);
   const [deleteProject] = useDeleteProject(projectId);
   const [updateProject] = useMutation(UPDATE_PROJECT);
-  const handleUpdateProject = useCallback(() => {
-    updateProject({
-      variables: {
-        id: projectId,
-        title
-      }
-    });
-    setEdit(false);
-  }, [updateProject, setEdit, title, projectId]);
+  const handleUpdateProject = useCallback(
+    e => {
+      e.preventDefault();
+      updateProject({
+        variables: {
+          id: projectId,
+          title
+        }
+      });
+      setEdit(false);
+    },
+    [updateProject, setEdit, title, projectId]
+  );
   const [createTask, loading] = useCreateTask(projectId);
 
   return (
     <Box marginBottom="30px">
       <Box marginLeft="10px" alignItems="center" display="flex">
-        <EditTitle mr="auto" maxWidth="50%" display="flex" alignItems="center">
+        <EditTitle
+          mr="auto"
+          maxWidth="50%"
+          display="flex"
+          alignItems="center"
+          component="form"
+          onSubmit={e => handleUpdateProject(e)}
+        >
           <Box mr="12px">
             {edit ? (
               <form>
@@ -77,9 +88,13 @@ const Project = ({ projectId, projectTitle, tasks }) => {
             </>
           ) : (
             <>
-              <EditIcon mr="8px" onClick={handleUpdateProject}>
-                check
-              </EditIcon>
+              <EditIconButton
+                type="submit"
+                mr="8px"
+                onClick={e => handleUpdateProject(e)}
+              >
+                <EditIcon>check</EditIcon>
+              </EditIconButton>
               <EditIcon onClick={() => setEdit(false)}>close</EditIcon>
             </>
           )}
