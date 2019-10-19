@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Avatar, Icon } from '@material-ui/core';
 import { grey, teal, red } from '@material-ui/core/colors';
 import { NavLink } from 'react-router-dom';
@@ -18,7 +18,7 @@ const VerticalLine = styled.span`
   display: inline-block;
   height: 60px;
   width: 2px;
-  background-color: ${grey[300]};
+  background-color: ${grey[100]};
   border-radius: 12px;
   margin: 2px 0;
   margin-left: 37px;
@@ -30,12 +30,12 @@ const IconContainer = styled(Avatar)`
     height: 28px;
     margin-right: 12px;
 
-    ${({ active, colorPalette }) =>
-      active === 1 && colorPalette === 1
+    ${({ active, colorpalette }) =>
+      active === 1 && colorpalette === 1
         ? `
       background-color: ${teal[100]}
     `
-        : active === 2 && colorPalette === 2
+        : active === 2 && colorpalette === 2
         ? `
       background-color: ${red[200]}
     `
@@ -54,12 +54,24 @@ const NavIcon = styled(Icon)`
 const SideNav = () => {
   const [active, setActive] = useState(1);
 
+  useEffect(() => {
+    const currentPath = window.location.pathname;
+    switch (currentPath) {
+      case '/pomodoro':
+        setActive(2);
+        break;
+      default:
+        setActive(1);
+        return;
+    }
+  }, [active]);
+
   return (
     <Box
       marginRight="60px"
       width="200px"
       display="flex"
-      paddingY={12}
+      paddingLeft="30px"
       flexDirection="column"
       alignItems="flex-start"
     >
@@ -69,8 +81,8 @@ const SideNav = () => {
         activeStyle={{ color: teal[600] }}
         onClick={() => setActive(1)}
       >
-        <IconContainer colorPalette={1} active={active}>
-          <NavIcon colorPalette={1} active={active}>
+        <IconContainer colorpalette={1} active={active}>
+          <NavIcon colorpalette={1} active={active}>
             assignment
           </NavIcon>
         </IconContainer>
@@ -83,8 +95,8 @@ const SideNav = () => {
         activeStyle={{ color: red[500] }}
         onClick={() => setActive(2)}
       >
-        <IconContainer colorPalette={2} active={active}>
-          <NavIcon colorPalette={2} active={active}>
+        <IconContainer colorpalette={2} active={active}>
+          <NavIcon colorpalette={2} active={active}>
             access_time
           </NavIcon>
         </IconContainer>

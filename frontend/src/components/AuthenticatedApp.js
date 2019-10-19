@@ -23,7 +23,7 @@ const AuthenticatedApp = () => {
     <>
       <Router>
         <Timeline projects={data.projects} />
-        <Box display="flex" maxWidth="1400px">
+        <Box display="flex" maxWidth="1400px" paddingY={8}>
           <SideNav />
           <Switch>
             <Route exact path="/">
