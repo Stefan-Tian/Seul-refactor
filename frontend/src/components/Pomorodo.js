@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Box } from '@material-ui/core';
+import { Box, Button } from '@material-ui/core';
 import tomato from '../images/tomato.svg';
+import PomodoroForm from './PomodoroForm';
 
 const Tomato = styled.div`
   width: 300px;
@@ -12,13 +13,17 @@ const Tomato = styled.div`
 `;
 
 const Pomodoro = () => {
+  const [focusTime, setFocusTime] = useState(25);
+  const [restTime, setRestTime] = useState(5);
+
   return (
     <Box width="100%" display="flex" justifyContent="space-around">
-      <Tomato />
-      <Box component="form">
-        <input type="text" placeholder="working for..." />
-        <input type="text" placeholder="rest for..." />
-      </Box>
+      <Tomato>
+        <div>{focusTime}</div>
+        <div>{restTime}</div>
+        <Button>start</Button>
+      </Tomato>
+      <PomodoroForm setFocusTime={setFocusTime} setRestTime={setRestTime} />
     </Box>
   );
 };
