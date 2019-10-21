@@ -10,7 +10,13 @@ const PomodoroForm = ({ setFocusTime, setRestTime }) => {
   }, [focusTime, restTime, setFocusTime, setRestTime]);
 
   return (
-    <Box component="form" onSubmit={submitTimeChange}>
+    <Box
+      component="form"
+      onSubmit={submitTimeChange}
+      display="flex"
+      flexDirection="column"
+      alignItems="left"
+    >
       <input type="number" name="focus" id="focus" ref={focusTime} />
       <input type="number" name="rest" id="rest" ref={restTime} />
       <Button onClick={submitTimeChange}>confirm</Button>
