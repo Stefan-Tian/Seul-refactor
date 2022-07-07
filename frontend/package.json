@@ -10,7 +10,7 @@
     "dhtmlx-gantt": "^6.2.7",
     "formik": "^1.5.8",
     "graphql": "^14.4.2",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "react": "^16.8.6",
     "react-apollo": "^3.0.1",
     "react-dates": "^20.2.5",
